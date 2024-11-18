@@ -1,13 +1,22 @@
 import { StyleSheet } from 'react-native';
-
-import { Text, View } from '@/components/Themed';
+import { View } from '@/components/Themed';
 import HeaderSemiCircle from '@/components/HeaderSemiCircle';
 import WebView, { WebViewMessageEvent } from 'react-native-webview';
+import { useNavigation } from '@react-navigation/native';
+
+import { Stack, router } from 'expo-router';
 
 export default function NewsScreen() {
+  const navigation = useNavigation();
 	const handleMessage = (event: WebViewMessageEvent) => {
-		const message = event.nativeEvent.data;
-		console.log('Message from WebView:', message);
+		const url = event.nativeEvent.data;
+		router.push({
+			pathname: '/modal',
+			params: {
+				title: 'School News',
+				url: url,
+			}
+		});
 	};
 
   return (
@@ -34,6 +43,5 @@ const styles = StyleSheet.create({
   webView: {
 	flex:1,
 	flexGrow: 1,
-
   }
 });

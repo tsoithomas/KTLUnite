@@ -57,20 +57,6 @@ export default function TabLayout() {
 					headerTintColor: '#16297C',
 					headerShadowVisible: false,
 					tabBarIcon: ({ color }) => <MaterialIcons name="card-membership" size={32} color={ color }/>,
-					headerRight: () => (
-						<Link href="/modal" asChild>
-							<Pressable>
-								{({ pressed }) => (
-									<FontAwesome
-										name="info-circle"
-										size={25}
-										color={Colors[colorScheme ?? 'light'].text}
-										style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
-									/>
-								)}
-							</Pressable>
-						</Link>
-					),
 				}}
 			/>
 			<Tabs.Screen
@@ -85,6 +71,13 @@ export default function TabLayout() {
 					headerTintColor: '#16297C',
 					headerShadowVisible: false,
 					tabBarIcon: ({ color }) => <MaterialIcons name="event" size={32} color={color} />,
+					headerRight: () => (
+						<Pressable style={{marginHorizontal: 10}}>
+							{({ pressed }) => (
+								<MaterialIcons name="refresh" size={28} color='#16297C' />
+							)}
+						</Pressable>
+					),
 				}}
 			/>
 			<Tabs.Screen
@@ -99,36 +92,12 @@ export default function TabLayout() {
 					headerTintColor: '#16297C',
 					headerShadowVisible: false,
 					tabBarIcon: ({ color }) => <MaterialIcons name="newspaper" size={32} color={ color } />,
-					
-					headerLeft: () => (
-						<View style={{
-							flexDirection: 'row', 
-							justifyContent: 'flex-start',
-							marginHorizontal: 10,
-							}}>
-							<Pressable
-								style={{
-									marginRight: 5,
-								}}>
-								{({ pressed }) => (
-									<MaterialCommunityIcons name="arrow-left" size={28} color="#16297C" />
-								)}
-							</Pressable>
-							<Pressable
-								style={{
-								}}>
-								{({ pressed }) => (
-									<MaterialIcons name="refresh" size={28} color='#16297C' />
-								)}
-							</Pressable>
-						</View>
-				),
 					headerRight: () => (
-							<Pressable style={{marginHorizontal: 10}}>
-								{({ pressed }) => (
-									<MaterialIcons name="ios-share" size={28} color='#16297C' />
-								)}
-							</Pressable>
+						<Pressable style={{marginHorizontal: 10}}>
+							{({ pressed }) => (
+								<MaterialIcons name="refresh" size={28} color='#16297C' />
+							)}
+						</Pressable>
 					),
 				}}
 			/>
