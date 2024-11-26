@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
-import { Link, Tabs } from 'expo-router';
-import { Button, Platform, Pressable, View } from 'react-native';
-
+import { Link, Tabs, useNavigation } from 'expo-router';
+import { Pressable, Text } from 'react-native';
+import { router } from 'expo-router';
 import Colors from '@/constants/Colors';
 import { useColorScheme } from '@/components/useColorScheme';
 import { useClientOnlyValue } from '@/components/useClientOnlyValue';
@@ -11,7 +11,8 @@ import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 
 export default function TabLayout() {
 	const colorScheme = useColorScheme();
-
+	const [reloadKey, setReloadKey] = useState(0);
+	
 	return (
 		<Tabs
 			screenOptions={{
@@ -93,7 +94,18 @@ export default function TabLayout() {
 					headerShadowVisible: false,
 					tabBarIcon: ({ color }) => <MaterialIcons name="newspaper" size={32} color={ color } />,
 					headerRight: () => (
-						<Pressable style={{marginHorizontal: 10}}>
+						<Pressable style={{marginHorizontal: 10}}
+							onPress={() => {
+								console.log('reloading');
+								setReloadKey((prevKey) => prevKey + 1);
+								router.navigate({
+									pathname: '/news',
+									params: {
+										reloadKey: reloadKey,
+									}
+								});
+							}}
+						>
 							{({ pressed }) => (
 								<MaterialIcons name="refresh" size={28} color='#16297C' />
 							)}
