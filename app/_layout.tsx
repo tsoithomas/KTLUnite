@@ -6,8 +6,9 @@ import * as SplashScreen from 'expo-splash-screen';
 import { useEffect, useState } from 'react';
 import 'react-native-reanimated';
 import { useColorScheme } from '@/components/useColorScheme';
-import { Pressable, Text } from 'react-native';
+import { Pressable, Text, TouchableOpacity } from 'react-native';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 
 export {
 	// Catch any errors thrown by the Layout component.
@@ -52,39 +53,37 @@ function RootLayoutNav() {
 
 	return (
 		<ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-			<Stack>
-				<Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-				<Stack.Screen name="modal" options={{ 
-					presentation: 'modal', 
-					headerStyle: {backgroundColor: '#7CC4EB'},
-					headerTitleAlign: 'center',
-					headerLeft: () => (
-						<Pressable
-							onPress={() => {
-								console.log('sharing');
-								setShareKey((prevKey) => prevKey + 1);
-								router.navigate({
-									pathname: '/modal',
-									params: {
-										shareKey: shareKey,
-									}
-								});
-							}}
-						>
-						{({ pressed }) => (
-							<MaterialIcons name="ios-share" size={28} color='#16297C' />
-						)}
-						</Pressable>
-					),
-					headerRight: () => (
-						<Pressable>
-						{({ pressed }) => (
-							<MaterialIcons name="refresh" size={28} color='#16297C' />
-						)}
-						</Pressable>
-					)
-				}} />
-			</Stack>
+			<ActionSheetProvider>
+				<Stack>
+					<Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+					<Stack.Screen name="modal" options={{ 
+						presentation: 'modal', 
+						headerStyle: {backgroundColor: '#7CC4EB'},
+						headerTitleAlign: 'center',
+						headerLeft: () => (
+							<TouchableOpacity
+								onPress={() => {
+									console.log('sharing');
+									setShareKey((prevKey) => prevKey + 1);
+									router.navigate({
+										pathname: '/modal',
+										params: {
+											shareKey: shareKey,
+										}
+									});
+								}}
+							>
+								<MaterialIcons name="ios-share" size={28} color='#16297C' />
+							</TouchableOpacity>
+						),
+						headerRight: () => (
+							<TouchableOpacity>
+								<MaterialIcons name="refresh" size={28} color='#16297C' />
+							</TouchableOpacity>
+						)
+					}} />
+				</Stack>
+			</ActionSheetProvider>
 		</ThemeProvider>
 	);
 }

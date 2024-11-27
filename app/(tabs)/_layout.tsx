@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { Link, Tabs, useNavigation } from 'expo-router';
-import { Pressable, Text } from 'react-native';
+import { Pressable, Text, TouchableOpacity } from 'react-native';
 import { router } from 'expo-router';
 import Colors from '@/constants/Colors';
 import { useColorScheme } from '@/components/useColorScheme';
@@ -73,11 +73,20 @@ export default function TabLayout() {
 					headerShadowVisible: false,
 					tabBarIcon: ({ color }) => <MaterialIcons name="event" size={32} color={color} />,
 					headerRight: () => (
-						<Pressable style={{marginHorizontal: 10}}>
-							{({ pressed }) => (
-								<MaterialIcons name="refresh" size={28} color='#16297C' />
-							)}
-						</Pressable>
+						<TouchableOpacity style={{marginHorizontal: 10}}
+							onPress={() => {
+								console.log('reloading');
+								setReloadKey((prevKey) => prevKey + 1);
+								router.navigate({
+									pathname: '/activities',
+									params: {
+										reloadKey: reloadKey,
+									}
+								});
+							}}
+						>
+							<MaterialIcons name="refresh" size={28} color='#16297C' />
+						</TouchableOpacity>
 					),
 				}}
 			/>
@@ -94,7 +103,7 @@ export default function TabLayout() {
 					headerShadowVisible: false,
 					tabBarIcon: ({ color }) => <MaterialIcons name="newspaper" size={32} color={ color } />,
 					headerRight: () => (
-						<Pressable style={{marginHorizontal: 10}}
+						<TouchableOpacity style={{marginHorizontal: 10}}
 							onPress={() => {
 								console.log('reloading');
 								setReloadKey((prevKey) => prevKey + 1);
@@ -106,10 +115,8 @@ export default function TabLayout() {
 								});
 							}}
 						>
-							{({ pressed }) => (
-								<MaterialIcons name="refresh" size={28} color='#16297C' />
-							)}
-						</Pressable>
+							<MaterialIcons name="refresh" size={28} color='#16297C' />
+						</TouchableOpacity>
 					),
 				}}
 			/>

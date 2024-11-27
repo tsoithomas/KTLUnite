@@ -1,21 +1,26 @@
-import { ActivityIndicator, StyleSheet } from 'react-native';
+import { ActivityIndicator, Dimensions, StyleSheet } from 'react-native';
 import { View } from '@/components/Themed';
 import { useLocalSearchParams, useNavigation } from 'expo-router';
 import WebView from 'react-native-webview';
-import { useEffect, useLayoutEffect, useState } from 'react';
+import { createRef, useEffect, useLayoutEffect, useState } from 'react';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import * as Sharing from 'expo-sharing';
 
 export default function ModalScreen() {
 	const params = useLocalSearchParams<{ url: string, title: string, shareKey: string }>();
+	const { width, height } = Dimensions.get('window');
 	const navigation = useNavigation();
+	const webViewRef = createRef<WebView>();
 	const [loading, setLoading] = useState(true);
+	const [reloadKey, setReloadKey] = useState(0);
 	const [url, setUrl] = useState('');
 
 	useLayoutEffect(() => {
-		navigation.setOptions({ 
-			title: params.title || '',
-		});
+		if (params.title) {
+			navigation.setOptions({ 
+				title: params.title,
+			});
+		}
 	}, [params.url, navigation]);
 
 	useEffect(() => {
@@ -36,19 +41,25 @@ export default function ModalScreen() {
 		}
 	}, [params.url]);
 
+	const hideSpinner = () => {
+		setLoading(false);
+	}
+
 	return (
 		<View style={styles.container}>
-			{loading && (
-				<View style={styles.loadingOverlay}>
-				<ActivityIndicator size="large" color="#0000ff" />
-			</View>
-			)}
 			<WebView
+				ref={webViewRef}
+				key={reloadKey}
 				style={styles.webView}
 				source={{ uri: url }}
-				onLoadStart={() => setLoading(true)} // Show loading spinner
-				onLoadEnd={() => setLoading(false)} // Hide loading spinner
+				onLoad={() => hideSpinner()}
 			/>
+			{loading && (
+				<ActivityIndicator
+					style={[styles.webView, { position: "absolute", top: height / 2 - 100, left: width / 2 - 12 }]}
+					size="large"
+					/>
+			)}
 		</View>
 
 
@@ -59,6 +70,7 @@ const styles = StyleSheet.create({
 	container: {
 	  flex: 1,
 	  flexDirection: "column",
+	  position: 'relative',
 	},
 	header: {
 	  flexShrink: 1,
@@ -66,11 +78,5 @@ const styles = StyleSheet.create({
 	webView: {
 	  flex:1,
 	  flexGrow: 1,
-	},
-	loadingOverlay: {
-		...StyleSheet.absoluteFillObject,
-		justifyContent: 'center',
-		alignItems: 'center',
-		backgroundColor: 'rgba(255, 255, 255, 0.7)', // Slightly transparent background
 	},
 });

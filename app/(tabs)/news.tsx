@@ -8,9 +8,9 @@ import { createRef, useEffect, useState } from 'react';
 export default function NewsScreen() {
 	const params = useLocalSearchParams<{ reloadKey: string }>();
 	const [reloadKey, setReloadKey] = useState(0);
+	const webViewRef = createRef<WebView>();
 	const { width, height } = Dimensions.get('window');
 	const [loading, setLoading] = useState(true);
-	const webViewRef = createRef<WebView>();
 	
 	const handleMessage = (event: WebViewMessageEvent) => {
 		const url = event.nativeEvent.data;
