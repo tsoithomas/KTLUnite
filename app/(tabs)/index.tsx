@@ -20,40 +20,49 @@ export default function MembershipScreen() {
 	return (
 		<View style={styles.container}>
 			<Image 
-			style={styles.logo}
+				style={styles.logo}
 				source={require("../../assets/images/HeaderMain.svg")}
-
 			/>
 
-			<FormControl className="m-4 p-4 border rounded-lg border-outline-300">
+			<FormControl className="mx-12 my-8 rounded-lg border-outline-200">
+				<Image 
+					style={styles.tlgirl}
+					source={require("../../assets/images/tlgirl1.png")}
+				/>
 				<VStack space="xl">
-					<Heading className="text-typography-900 leading-3">Login</Heading>
-					<VStack space="xs">
-						<Text className="text-typography-500 leading-1">Email</Text>
-						<Input>
-						<InputField type="text" />
+					<VStack space="xs" className=" bg-gray-100">
+						<Input size="xl">
+							<InputField type="text" placeholder="Email" autoComplete="email" inputMode="email" />
 						</Input>
 					</VStack>
 					<VStack space="xs">
-						<Text className="text-typography-500 leading-1">Password</Text>
-						<Input className="text-center">
-						<InputField type={showPassword ? "text" : "password"} />
-						<InputSlot className="pr-3" onPress={handleState}>
-							{/* EyeIcon, EyeOffIcon are both imported from 'lucide-react-native' */}
-							<InputIcon
-								as={showPassword ? EyeIcon : EyeOffIcon}
-								className="text-gray-700"
-							/>
-						</InputSlot>
+						<Input className="bg-gray-100" size="xl">
+							<InputField type={showPassword ? "text" : "password"} placeholder="Password" />
+							<InputSlot className="pr-3" onPress={handleState}>
+								<InputIcon
+									as={showPassword ? EyeIcon : EyeOffIcon}
+									className="text-gray-500"
+								/>
+							</InputSlot>
 						</Input>
 					</VStack>
 					<Button
-						className="ml-auto"
+						size="xl"
+						className="mx-auto w-48 bg-cyan-700 rounded-full"
 						onPress={() => {
 							// setShowModal(false)
 						}}
 					>
-						<ButtonText className="text-typography-0">Save</ButtonText>
+						<ButtonText className="text-typography-0">Sign in</ButtonText>
+					</Button>
+					<Button
+						size="xl"
+						className="mx-auto w-48 bg-cyan-700 rounded-full"
+						onPress={() => {
+							// setShowModal(false)
+						}}
+					>
+						<ButtonText className="text-typography-0">Join</ButtonText>
 					</Button>
 				</VStack>
 			</FormControl>
@@ -79,6 +88,14 @@ const styles = StyleSheet.create({
 	logo: {
 	  width: "100%",
 	  height: 200,
+	},
+	tlgirl: {
+		height: 100,
+		width: 200,
+		resizeMode: 'contain',
+		marginHorizontal: 'auto',
+		top: 6,
+		zIndex: 100
 	},
 	loginForm: {
 		paddingHorizontal: 40,
