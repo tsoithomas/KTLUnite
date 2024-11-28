@@ -1,13 +1,10 @@
 import React, { useState } from 'react';
-import FontAwesome from '@expo/vector-icons/FontAwesome';
-import { Link, Tabs, useNavigation } from 'expo-router';
-import { Pressable, Text, TouchableOpacity } from 'react-native';
+import { Tabs } from 'expo-router';
+import { TouchableOpacity } from 'react-native';
 import { router } from 'expo-router';
-import Colors from '@/constants/Colors';
 import { useColorScheme } from '@/components/useColorScheme';
 import { useClientOnlyValue } from '@/components/useClientOnlyValue';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
-import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 
 export default function TabLayout() {
 	const colorScheme = useColorScheme();

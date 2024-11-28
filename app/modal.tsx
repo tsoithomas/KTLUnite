@@ -3,8 +3,8 @@ import { View } from '@/components/Themed';
 import { useLocalSearchParams, useNavigation } from 'expo-router';
 import WebView from 'react-native-webview';
 import { createRef, useEffect, useLayoutEffect, useState } from 'react';
-import FontAwesome from '@expo/vector-icons/FontAwesome';
-import * as Sharing from 'expo-sharing';
+import { Share } from 'react-native';
+import { Platform } from 'react-native';
 
 export default function ModalScreen() {
 	const params = useLocalSearchParams<{ url: string, title: string, shareKey: string }>();
@@ -27,14 +27,32 @@ export default function ModalScreen() {
 		if (params.shareKey) {
 			const originalUrl = url.substring(0, url.indexOf('?')) || url;
 			console.log('Sharing ' + originalUrl);
-			Sharing.shareAsync(originalUrl, {
-				dialogTitle: 'sharing', 
-				mimeType: 'text/plain', 
-				UTI: 'public.url'
-			});
+
+			shareWebAddress(originalUrl);
+			
+			// Sharing.shareAsync(originalUrl, {
+			// 	dialogTitle: 'sharing', 
+			// 	mimeType: 'text/plain', 
+			// 	UTI: 'public.url'
+			// });
 		}
 	}, [params.shareKey]);
 
+	const shareWebAddress = async(url: string) => {
+		try {
+			await Share.share(
+				Platform.select({
+					ios: { url: url }, 
+					android: { message: url }, 
+					default: { message: url }
+				})
+			);
+		}
+		catch (error) {
+			console.error("Error sharing the web address:", error);
+		}
+	}
+	
 	useEffect(() => {
 		if (params.url && params.url.startsWith('http')) {
 			setUrl(params.url + '?src=app');
