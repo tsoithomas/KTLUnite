@@ -1,4 +1,6 @@
 import FontAwesome from '@expo/vector-icons/FontAwesome';
+import "@/global.css";
+import { GluestackUIProvider } from "@/components/ui/gluestack-ui-provider";
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
 import { Stack, router } from 'expo-router';
@@ -6,7 +8,7 @@ import * as SplashScreen from 'expo-splash-screen';
 import { useEffect, useState } from 'react';
 import 'react-native-reanimated';
 import { useColorScheme } from '@/components/useColorScheme';
-import { Pressable, Text, TouchableOpacity } from 'react-native';
+import { TouchableOpacity } from 'react-native';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 
@@ -44,7 +46,7 @@ export default function RootLayout() {
 		return null;
 	}
 
-	return <RootLayoutNav />;
+	return <GluestackUIProvider mode="light"><RootLayoutNav /></GluestackUIProvider>;
 }
 
 function RootLayoutNav() {
@@ -52,38 +54,40 @@ function RootLayoutNav() {
 	const [shareKey, setShareKey] = useState(0);
 
 	return (
-		<ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-			<ActionSheetProvider>
-				<Stack>
-					<Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-					<Stack.Screen name="modal" options={{ 
-						presentation: 'modal', 
-						headerStyle: {backgroundColor: '#7CC4EB'},
-						headerTitleAlign: 'center',
-						headerLeft: () => (
-							<TouchableOpacity
-								onPress={() => {
-									console.log('sharing');
-									setShareKey((prevKey) => prevKey + 1);
-									router.navigate({
-										pathname: '/modal',
-										params: {
-											shareKey: shareKey,
-										}
-									});
-								}}
-							>
-								<MaterialIcons name="ios-share" size={28} color='#16297C' />
-							</TouchableOpacity>
-						),
-						headerRight: () => (
-							<TouchableOpacity>
-								<MaterialIcons name="refresh" size={28} color='#16297C' />
-							</TouchableOpacity>
-						)
-					}} />
-				</Stack>
-			</ActionSheetProvider>
-		</ThemeProvider>
-	);
+        <GluestackUIProvider mode="light">
+			<ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+                <ActionSheetProvider>
+                    <Stack>
+                        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+                        <Stack.Screen name="modal" options={{ 
+                            presentation: 'modal', 
+                            headerStyle: {backgroundColor: '#7CC4EB'},
+                            headerTitleAlign: 'center',
+                            headerLeft: () => (
+                                <TouchableOpacity
+                                    onPress={() => {
+                                        console.log('sharing');
+                                        setShareKey((prevKey) => prevKey + 1);
+                                        router.navigate({
+                                            pathname: '/modal',
+                                            params: {
+                                                shareKey: shareKey,
+                                            }
+                                        });
+                                    }}
+                                >
+                                    <MaterialIcons name="ios-share" size={28} color='#16297C' />
+                                </TouchableOpacity>
+                            ),
+                            headerRight: () => (
+                                <TouchableOpacity>
+                                    <MaterialIcons name="refresh" size={28} color='#16297C' />
+                                </TouchableOpacity>
+                            )
+                        }} />
+                    </Stack>
+                </ActionSheetProvider>
+            </ThemeProvider>
+		</GluestackUIProvider>
+    );
 }

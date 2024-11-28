@@ -14,26 +14,24 @@ export default function SettingsScreen() {
 		const options = ['English', '中文', 'Cancel'];
 		const cancelButtonIndex = 2;
 	
-		showActionSheetWithOptions({
-		  options,
-		  cancelButtonIndex
-		}, (selectedIndex: number) => {
-		  switch (selectedIndex) {
-			case 0:
-				setLanguage('en');
-				break;
-			case 1:
-				setLanguage('zh');
-				break;
-	
-			case cancelButtonIndex:
-			  // Canceled
+		showActionSheetWithOptions({options, cancelButtonIndex}, (selectedIndex?: number) => {
+			if (selectedIndex === undefined) {
+				return;
+			}
+
+			switch (selectedIndex) {
+				case 0:
+					setLanguage('en');
+					break;
+				case 1:
+					setLanguage('zh');
+					break;
 		  }});
 	}
 
 	type DataItem =
-		| { key: string; name: string; onPress: () => void; icon?: React.ReactNode }
-		| { key: string; name: string; isSwitch: boolean; value: boolean; onValueChange: () => void };
+		| { type: 'button'; key: string; name: string; onPress: () => void; icon?: React.ReactNode }
+		| { type: 'switch'; key: string; name: string; isSwitch: true; value: boolean; onValueChange: () => void };
 
 	type Section = {
 		title: string;
@@ -45,6 +43,7 @@ export default function SettingsScreen() {
 			title: 'Interface',
 			data: [
 				{ 
+					type: 'button',
 					key: 'language', 
 					name: 'Language', 
 					onPress: selectLanguage,
@@ -56,6 +55,7 @@ export default function SettingsScreen() {
 			title: 'Membership',
 			data: [
 				{
+					type: 'button',
 					key: 'membership',
 					name: 'Log in',
 					onPress: () => alert('View Terms of Service'),
@@ -67,12 +67,14 @@ export default function SettingsScreen() {
 			title: 'About',
 			data: [
 				{ 
+					type: 'button',
 					key: 'tos', 
 					name: 'Terms of Service', 
 					onPress: () => alert('View Terms of Service'),
 					icon: <MaterialIcons name="room-service" size={24} color="black" />
 				},
 				{ 
+					type: 'button',
 					key: 'pp', 
 					name: 'Privacy Policy', 
 					onPress: () => alert('View Privacy Policy'),
@@ -90,29 +92,31 @@ export default function SettingsScreen() {
 				sections={DATA}
 				keyExtractor={(item) => item.key}
 				renderItem={({ item }) => {
-					
-					if (item.key == 'language') {
+					if (item.type === 'button') {
+						if (item.key == 'language') {
+							return (
+								<TouchableOpacity onPress={item.onPress} style={styles.item}>
+									<View style={styles.iconContainer}>
+										{item.icon}
+									</View>
+
+									<Text style={styles.itemText}>{item.name}</Text>
+									<Text style={styles.itemValue}>{ language == 'zh' ? '中文' : 'English' }</Text>
+								</TouchableOpacity>
+							)
+						}
+
 						return (
 							<TouchableOpacity onPress={item.onPress} style={styles.item}>
 								<View style={styles.iconContainer}>
 									{item.icon}
 								</View>
-
 								<Text style={styles.itemText}>{item.name}</Text>
-								<Text style={styles.itemValue}>{ language == 'zh' ? '中文' : 'English' }</Text>
 							</TouchableOpacity>
 						)
 					}
 
-					return (
-						<TouchableOpacity onPress={item.onPress} style={styles.item}>
-							<View style={styles.iconContainer}>
-								{item.icon}
-							</View>
-							<Text style={styles.itemText}>{item.name}</Text>
-						</TouchableOpacity>
-					)
-
+					return <View />;
 				}
 
 					

@@ -15,8 +15,6 @@ export default function TabLayout() {
 			screenOptions={{
 				tabBarActiveTintColor: '#16297C',
 				tabBarInactiveTintColor: '#4976B4',
-				// Disable the static render of the header on web
-				// to prevent a hydration error in React Navigation v6.
 				headerShown: useClientOnlyValue(false, true),
 				tabBarStyle: {
 					position: 'absolute',
@@ -42,6 +40,7 @@ export default function TabLayout() {
 				tabBarLabelStyle: {
 					fontSize: 14,
 				},
+				tabBarHideOnKeyboard: true,
 			}}>
 			<Tabs.Screen
 				name="index"
