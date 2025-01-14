@@ -8,6 +8,8 @@ import { Heading } from '@/components/ui/heading';
 import { Button, ButtonText } from '@/components/ui/button';
 import { useState } from 'react';
 import { EyeIcon, EyeOffIcon } from '@/components/ui/icon';
+import HeaderSemiCircle from '@/components/HeaderSemiCircle';
+import { router } from 'expo-router';
 
 export default function MembershipScreen() {
 	const [showPassword, setShowPassword] = useState(false);
@@ -19,14 +21,12 @@ export default function MembershipScreen() {
 
 	return (
 		<View style={styles.container}>
-			<Image 
-				style={styles.logo}
-				source={require("../../assets/images/HeaderMain.svg")}
-			/>
+        	<HeaderSemiCircle style={styles.headerSemiCircle} />
 
-			<FormControl className="mx-12 my-8 rounded-lg border-outline-200">
+			<FormControl className="mx-12 mt-20 rounded-lg border-outline-200">
 				<Image 
 					style={styles.tlgirl}
+					contentFit='contain'
 					source={require("../../assets/images/tlgirl1.png")}
 				/>
 				<VStack space="xl">
@@ -59,7 +59,9 @@ export default function MembershipScreen() {
 						size="xl"
 						className="mx-auto w-48 bg-cyan-700 rounded-full"
 						onPress={() => {
-							// setShowModal(false)
+							router.navigate({
+								pathname: '/register',
+							});
 						}}
 					>
 						<ButtonText className="text-typography-0">Join</ButtonText>
@@ -92,7 +94,6 @@ const styles = StyleSheet.create({
 	tlgirl: {
 		height: 100,
 		width: 200,
-		resizeMode: 'contain',
 		marginHorizontal: 'auto',
 		top: 6,
 		zIndex: 100
@@ -100,5 +101,13 @@ const styles = StyleSheet.create({
 	loginForm: {
 		paddingHorizontal: 40,
 		paddingVertical: 40,
-	}
+	},
+	headerSemiCircle: {
+		position: "absolute", 
+		top: 0, 
+		left: 0, 
+		width: 402, 
+		height: 23,
+		zIndex: 1,
+	},
 });

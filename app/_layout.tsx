@@ -11,6 +11,7 @@ import { useColorScheme } from '@/components/useColorScheme';
 import { TouchableOpacity } from 'react-native';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { ActionSheetProvider } from '@expo/react-native-action-sheet';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 export {
 	// Catch any errors thrown by the Layout component.
@@ -54,40 +55,66 @@ function RootLayoutNav() {
 	const [shareKey, setShareKey] = useState(0);
 
 	return (
-        <GluestackUIProvider mode="light">
+		<GluestackUIProvider mode="light">
 			<ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-                <ActionSheetProvider>
-                    <Stack>
-                        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-                        <Stack.Screen name="modal" options={{ 
-                            presentation: 'modal', 
-                            headerStyle: {backgroundColor: '#7CC4EB'},
-                            headerTitleAlign: 'center',
-                            headerLeft: () => (
-                                <TouchableOpacity
-                                    onPress={() => {
-                                        console.log('sharing');
-                                        setShareKey((prevKey) => prevKey + 1);
-                                        router.navigate({
-                                            pathname: '/modal',
-                                            params: {
-                                                shareKey: shareKey,
-                                            }
-                                        });
-                                    }}
-                                >
-                                    <MaterialIcons name="ios-share" size={28} color='#16297C' />
-                                </TouchableOpacity>
-                            ),
-                            headerRight: () => (
-                                <TouchableOpacity>
-                                    <MaterialIcons name="refresh" size={28} color='#16297C' />
-                                </TouchableOpacity>
-                            )
-                        }} />
-                    </Stack>
-                </ActionSheetProvider>
-            </ThemeProvider>
+				<ActionSheetProvider>
+					<Stack>
+						<Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+						<Stack.Screen name="modal" options={{ 
+							presentation: 'modal', 
+							headerStyle: {backgroundColor: '#7CC4EB'},
+							headerTitleAlign: 'center',
+							headerLeft: () => (
+								<TouchableOpacity
+									onPress={() => {
+										console.log('sharing');
+										setShareKey((prevKey) => prevKey + 1);
+										router.navigate({
+											pathname: '/modal',
+											params: {
+												shareKey: shareKey,
+											}
+										});
+									}}
+								>
+									<MaterialIcons name="ios-share" size={28} color='#16297C' />
+								</TouchableOpacity>
+							),
+							headerRight: () => (
+								<TouchableOpacity>
+									<MaterialIcons name="refresh" size={28} color='#16297C' />
+								</TouchableOpacity>
+							)
+						}} />
+						<Stack.Screen name="register" options={{ 
+							title: "Register",
+							presentation: 'fullScreenModal', 
+							headerStyle: {backgroundColor: '#7CC4EB'},
+							headerTitleAlign: 'center',
+							headerBackTitle: "Back",
+							headerShadowVisible: false,
+							headerTintColor: '#16297C',
+
+							headerLeft: () => (
+								<TouchableOpacity
+									onPress={() => {
+										router.push({
+											pathname: '/register',
+											params: {
+												closeDialog: '1',
+											}
+										});
+
+										// router.back();
+									}}
+								>
+									<MaterialCommunityIcons name="backspace" size={28} color='#16297C' />
+								</TouchableOpacity>
+							),
+						}} />
+					</Stack>
+				</ActionSheetProvider>
+			</ThemeProvider>
 		</GluestackUIProvider>
-    );
+	);
 }

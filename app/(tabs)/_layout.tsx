@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { Tabs } from 'expo-router';
-import { TouchableOpacity } from 'react-native';
+import { StyleSheet, TouchableOpacity, View, Text } from 'react-native';
 import { router } from 'expo-router';
 import { useColorScheme } from '@/components/useColorScheme';
 import { useClientOnlyValue } from '@/components/useClientOnlyValue';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import { Image } from 'expo-image';
 
 export default function TabLayout() {
 	const colorScheme = useColorScheme();
@@ -46,14 +47,43 @@ export default function TabLayout() {
 				name="index"
 				options={{
 					title: 'Account',
-					headerTitle: 'Alumni Association',
+					// headerTitle: 'Alumni Association',
+					headerTitle: () => (
+						<View style={styles.headerTitle}>
+							<Text style={styles.titleText}>KTL</Text>
+							<Image style={styles.star}
+								source={require("../../assets/images/star.svg")}
+							/>
+							<Text style={styles.titleText}>Alumni</Text>
+						</View>
+					),
 					headerTitleAlign: 'center',
+					// header: ({ navigation, route, options }) => {
+					// 	// const title = getHeaderTitle(options, route.name);
+					// 	console.log(defaultHeaderHeight)
+					// 	return (
+					// 	  <View style={[styles.header, {height: defaultHeaderHeight+23+20}]}>
+					// 		<View style={[styles.headerBar, {height: defaultHeaderHeight}]} />
+					// 		<View style={styles.headerTitle}>
+					// 			<Text style={styles.titleText}>KTL</Text>
+					// 			<Image style={styles.star}
+					// 				source={require("../../assets/images/star.svg")}
+					// 			/>
+					// 			<Text style={styles.titleText}>Alumni</Text>
+					// 		</View>
+					// 		{/* <Image style={styles.logo}
+					// 			source={require("../../assets/images/HeaderMain.svg")}
+					// 		/> */}
+					// 		<HeaderSemiCircle style={styles.headerSemiCircle} />
+					// 	  </View>
+					// 	);
+					// },
 					headerStyle: {
 						backgroundColor: '#7CC4EB',
 					},
 					headerTintColor: '#16297C',
 					headerShadowVisible: false,
-					tabBarIcon: ({ color }) => <MaterialIcons name="card-membership" size={32} color={ color }/>,
+					tabBarIcon: ({ color }) => <MaterialIcons name="account-circle" size={32} color={ color }/>,
 				}}
 			/>
 			<Tabs.Screen
@@ -133,3 +163,18 @@ export default function TabLayout() {
 		</Tabs>
 	);
 }
+
+const styles = StyleSheet.create({
+	headerTitle: {
+		flexDirection: 'row',
+		alignItems: 'center',
+	},
+	titleText: {
+		fontSize: 18,
+		fontWeight: 'bold',
+	},
+	star: {
+		width: 48,
+		height: 48,
+	}
+});
