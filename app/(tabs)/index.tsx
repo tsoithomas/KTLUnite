@@ -1,74 +1,80 @@
-import { StyleSheet } from 'react-native';
+import { TouchableWithoutFeedback, View, StyleSheet } from 'react-native';
 import { Image } from 'expo-image';
-import { Text, View } from '@/components/Themed';
-import { Input,InputField, InputIcon, InputSlot } from "@/components/ui/input"
-import { FormControl } from '@/components/ui/form-control';
-import { VStack } from '@/components/ui/vstack';
-import { Heading } from '@/components/ui/heading';
-import { Button, ButtonText } from '@/components/ui/button';
 import { useState } from 'react';
-import { EyeIcon, EyeOffIcon } from '@/components/ui/icon';
 import HeaderSemiCircle from '@/components/HeaderSemiCircle';
 import { router } from 'expo-router';
 
+import * as eva from '@eva-design/eva';
+import { Layout, Icon, IconElement, Input, Text, Button } from '@ui-kitten/components';
+import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import MaterialCommunityIcons from '@expo/vector-icons/build/MaterialCommunityIcons';
+import { rgbaColor } from 'react-native-reanimated/lib/typescript/Colors';
+
+
+// const AlertIcon = (props: any): IconElement => (
+// 	<Icon
+// 	  {...props}
+// 	  name='alert-circle-outline'
+// 	/>
+//   );
+
 export default function MembershipScreen() {
-	const [showPassword, setShowPassword] = useState(false);
-	const handleState = () => {
-		setShowPassword((showState) => {
-			return !showState
-		})
-	}
+	const [email, setEmail] = useState('');
+	const [password, setPassword] = useState('');
+	const [secureTextEntry, setSecureTextEntry] = useState(true);
+
+	const toggleSecureEntry = (): void => {
+		setSecureTextEntry(!secureTextEntry);
+	};
 
 	return (
 		<View style={styles.container}>
         	<HeaderSemiCircle style={styles.headerSemiCircle} />
-
-			<FormControl className="mx-12 mt-20 rounded-lg border-outline-200">
+			<Layout style={{flex: 1, justifyContent: 'flex-start', alignItems: 'center', paddingTop: 50}}>
 				<Image 
-					style={styles.tlgirl}
-					contentFit='contain'
-					source={require("../../assets/images/tlgirl1.png")}
+						style={styles.tlgirl}
+						contentFit='contain'
+						source={require("../../assets/images/tlgirl1.png")}
+					/>
+					
+				<Input
+					style={styles.input}
+					placeholder='Email'
+					value={email}
+					size='large'
+					onChangeText={nextValue => setEmail(nextValue)}
 				/>
-				<VStack space="xl">
-					<VStack space="xs" className=" bg-gray-100">
-						<Input size="xl">
-							<InputField type="text" placeholder="Email" autoComplete="email" inputMode="email" />
-						</Input>
-					</VStack>
-					<VStack space="xs">
-						<Input className="bg-gray-100" size="xl">
-							<InputField type={showPassword ? "text" : "password"} placeholder="Password" />
-							<InputSlot className="pr-3" onPress={handleState}>
-								<InputIcon
-									as={showPassword ? EyeIcon : EyeOffIcon}
-									className="text-gray-500"
-								/>
-							</InputSlot>
-						</Input>
-					</VStack>
-					<Button
-						size="xl"
-						className="mx-auto w-48 bg-cyan-700 rounded-full"
-						onPress={() => {
-							// setShowModal(false)
-						}}
-					>
-						<ButtonText className="text-typography-0">Sign in</ButtonText>
-					</Button>
-					<Button
-						size="xl"
-						className="mx-auto w-48 bg-cyan-700 rounded-full"
-						onPress={() => {
-							router.navigate({
-								pathname: '/register',
-							});
-						}}
-					>
-						<ButtonText className="text-typography-0">Join</ButtonText>
-					</Button>
-				</VStack>
-			</FormControl>
 
+				<Input
+					style={styles.input}
+					value={password}
+					placeholder='Password'
+					accessoryRight={
+						<TouchableWithoutFeedback onPress={toggleSecureEntry}>
+							<MaterialCommunityIcons 
+								name={secureTextEntry ? 'eye-off' : 'eye'}
+								size={28} />
+						</TouchableWithoutFeedback>
+					}
+					secureTextEntry={secureTextEntry}
+					onChangeText={nextValue => setPassword(nextValue)}
+				/>
+
+				<Button style={styles.signInButton}>
+					Sign in
+				</Button>
+
+				<Button 
+					style={styles.joinButton}
+					onPress={() => {
+						router.navigate({
+							pathname: '/register',
+						});
+					}}
+					>
+					Join
+				</Button>
+			</Layout>
 		</View>
 	);
 }
@@ -109,5 +115,39 @@ const styles = StyleSheet.create({
 		width: 402, 
 		height: 23,
 		zIndex: 1,
+	},
+	signInButton: {
+		backgroundColor: "#0E6279",
+		borderWidth: 0,
+		borderRadius: 50,
+		marginTop: 20,
+		width: 200,
+	},
+	joinButton: {
+		backgroundColor: "#0E6279",
+		borderWidth: 0,
+		borderRadius: 50,
+		marginTop: 20,
+		width: 200,
+	},
+	input: {
+		width: '70%',
+		marginBottom: 6,
+	},
+	captionContainer: {
+		display: 'flex',
+		flexDirection: 'row',
+		alignItems: 'center',
+	},
+	  captionIcon: {
+		width: 10,
+		height: 10,
+		marginRight: 5,
+	},
+	  captionText: {
+		fontSize: 12,
+		fontWeight: '400',
+		fontFamily: 'opensans-regular',
+		color: '#8F9BB3',
 	},
 });

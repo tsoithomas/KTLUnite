@@ -1,6 +1,5 @@
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import "@/global.css";
-import { GluestackUIProvider } from "@/components/ui/gluestack-ui-provider";
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
 import { Stack, router } from 'expo-router';
@@ -11,7 +10,11 @@ import { useColorScheme } from '@/components/useColorScheme';
 import { TouchableOpacity } from 'react-native';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { ActionSheetProvider } from '@expo/react-native-action-sheet';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { Entypo, FontAwesome6, MaterialCommunityIcons } from '@expo/vector-icons';
+
+import * as eva from '@eva-design/eva';
+import { ApplicationProvider, Text } from '@ui-kitten/components';
+
 
 export {
 	// Catch any errors thrown by the Layout component.
@@ -47,15 +50,17 @@ export default function RootLayout() {
 		return null;
 	}
 
-	return <GluestackUIProvider mode="light"><RootLayoutNav /></GluestackUIProvider>;
+	return <RootLayoutNav />;
 }
 
 function RootLayoutNav() {
 	const colorScheme = useColorScheme();
 	const [shareKey, setShareKey] = useState(0);
+	const [closeDialogKey, setCloseDialogKey] = useState(0);
+	const [registerPage, setRegisterPage] = useState(0);
 
 	return (
-		<GluestackUIProvider mode="light">
+		<ApplicationProvider {...eva} theme={eva.light}>
 			<ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
 				<ActionSheetProvider>
 					<Stack>
@@ -98,23 +103,46 @@ function RootLayoutNav() {
 							headerLeft: () => (
 								<TouchableOpacity
 									onPress={() => {
+										setCloseDialogKey((prevKey) => prevKey + 1);
 										router.push({
 											pathname: '/register',
 											params: {
-												closeDialog: '1',
+												closeDialog: closeDialogKey,
+												registerPage: 0,
 											}
 										});
-
-										// router.back();
 									}}
 								>
-									<MaterialCommunityIcons name="backspace" size={28} color='#16297C' />
+									{
+										registerPage == 0
+										? <MaterialIcons name="close" size={28} color="#16297C" />
+										: <Text>Back</Text>
+									}
+									
 								</TouchableOpacity>
 							),
+
+
+							headerRight: () => (
+								<TouchableOpacity
+									onPress={() => {
+										setRegisterPage((prevPage) => prevPage + 1)
+										router.navigate({
+											pathname: '/register',
+											params: {
+												registerPage: registerPage,
+											}
+										});
+									}}
+								>
+									<Text>Next</Text>
+								</TouchableOpacity>
+							),
+
 						}} />
 					</Stack>
 				</ActionSheetProvider>
 			</ThemeProvider>
-		</GluestackUIProvider>
+		</ApplicationProvider>
 	);
 }
