@@ -5,10 +5,9 @@ import HeaderSemiCircle from '@/components/HeaderSemiCircle';
 import { router } from 'expo-router';
 
 import * as eva from '@eva-design/eva';
-import { Layout, Icon, IconElement, Input, Text, Button } from '@ui-kitten/components';
+import { Layout, Icon, IconElement, Input, Text, Button, IndexPath } from '@ui-kitten/components';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import MaterialCommunityIcons from '@expo/vector-icons/build/MaterialCommunityIcons';
-import { rgbaColor } from 'react-native-reanimated/lib/typescript/Colors';
 
 
 // const AlertIcon = (props: any): IconElement => (
@@ -23,6 +22,8 @@ export default function MembershipScreen() {
 	const [password, setPassword] = useState('');
 	const [secureTextEntry, setSecureTextEntry] = useState(true);
 
+	const [classSelectedIndex, setClassSelectedIndex] = useState<IndexPath>(new IndexPath(0));
+	
 	const toggleSecureEntry = (): void => {
 		setSecureTextEntry(!secureTextEntry);
 	};
@@ -74,6 +75,7 @@ export default function MembershipScreen() {
 					>
 					Join
 				</Button>
+
 			</Layout>
 		</View>
 	);

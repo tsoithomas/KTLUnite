@@ -1,4 +1,3 @@
-import FontAwesome from '@expo/vector-icons/FontAwesome';
 import "@/global.css";
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
@@ -8,9 +7,8 @@ import { useEffect, useState } from 'react';
 import 'react-native-reanimated';
 import { useColorScheme } from '@/components/useColorScheme';
 import { TouchableOpacity } from 'react-native';
-import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import { Entypo, FontAwesome6, MaterialCommunityIcons, MaterialIcons, FontAwesome } from '@expo/vector-icons';
 import { ActionSheetProvider } from '@expo/react-native-action-sheet';
-import { Entypo, FontAwesome6, MaterialCommunityIcons } from '@expo/vector-icons';
 
 import * as eva from '@eva-design/eva';
 import { ApplicationProvider, Text } from '@ui-kitten/components';
@@ -55,9 +53,11 @@ export default function RootLayout() {
 
 function RootLayoutNav() {
 	const colorScheme = useColorScheme();
+	const registerFirstPage = 0, registerPageTotal = 4;
 	const [shareKey, setShareKey] = useState(0);
 	const [closeDialogKey, setCloseDialogKey] = useState(0);
-	const [registerPage, setRegisterPage] = useState(0);
+	const [registerPageNumber, setRegisterPageNumber] = useState(registerFirstPage);
+
 
 	return (
 		<ApplicationProvider {...eva} theme={eva.light}>
@@ -72,7 +72,6 @@ function RootLayoutNav() {
 							headerLeft: () => (
 								<TouchableOpacity
 									onPress={() => {
-										console.log('sharing');
 										setShareKey((prevKey) => prevKey + 1);
 										router.navigate({
 											pathname: '/modal',
@@ -93,7 +92,7 @@ function RootLayoutNav() {
 						}} />
 						<Stack.Screen name="register" options={{ 
 							title: "Register",
-							presentation: 'fullScreenModal', 
+							presentation: 'card', 
 							headerStyle: {backgroundColor: '#7CC4EB'},
 							headerTitleAlign: 'center',
 							headerBackTitle: "Back",
@@ -103,18 +102,31 @@ function RootLayoutNav() {
 							headerLeft: () => (
 								<TouchableOpacity
 									onPress={() => {
-										setCloseDialogKey((prevKey) => prevKey + 1);
-										router.push({
-											pathname: '/register',
-											params: {
-												closeDialog: closeDialogKey,
-												registerPage: 0,
-											}
-										});
+										if (registerPageNumber == registerFirstPage) {
+											setCloseDialogKey((prevKey) => prevKey + 1);
+											setRegisterPageNumber(registerFirstPage);
+											router.push({
+												pathname: '/register',
+												params: {
+													closeDialog: closeDialogKey,
+													pageNumber: registerFirstPage,
+												},
+											});
+										}
+										else {
+											setRegisterPageNumber((prevPage) => prevPage - 1);
+											router.navigate({
+												pathname: '/register',
+												params: {
+													pageNumber: registerPageNumber-1,
+												},
+											});
+										}
+											
 									}}
 								>
 									{
-										registerPage == 0
+										registerPageNumber == registerFirstPage
 										? <MaterialIcons name="close" size={28} color="#16297C" />
 										: <Text>Back</Text>
 									}
@@ -126,16 +138,25 @@ function RootLayoutNav() {
 							headerRight: () => (
 								<TouchableOpacity
 									onPress={() => {
-										setRegisterPage((prevPage) => prevPage + 1)
-										router.navigate({
-											pathname: '/register',
-											params: {
-												registerPage: registerPage,
-											}
-										});
+										if (registerPageNumber < registerPageTotal-1) {
+											setRegisterPageNumber((prevPage) => prevPage + 1);
+											router.navigate({
+												pathname: '/register',
+												params: {
+													pageNumber: registerPageNumber+1,
+												}
+											});
+										}
+										else {
+
+										}
 									}}
 								>
-									<Text>Next</Text>
+									{
+										registerPageNumber < registerPageTotal-1
+										? <Text>Next</Text>
+										: <Text>Submit</Text>
+									}
 								</TouchableOpacity>
 							),
 
