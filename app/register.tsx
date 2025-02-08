@@ -7,21 +7,24 @@ import { Button, IndexPath, Card, Input, Layout, Modal, Select, SelectItem, Text
 import { Entypo, FontAwesome, FontAwesome6, MaterialIcons } from '@expo/vector-icons';
 import { Image } from 'expo-image';
 
+
+import { Dropdown } from 'react-native-element-dropdown';
+
+
 export default function RegisterScreen() {
 	const params = useLocalSearchParams<{ closeDialog: string, pageNumber: string }>();
 	const [visible, setVisible] = useState(false);
 	const [pageNumber, setPageNumber] = useState(0);
 	const [shareStatusChecked, setShareStatusChecked] = useState(true);
-	const [yearSelectedIndex, setYearSelectedIndex] = useState<IndexPath>(new IndexPath(0));
-	const [classSelectedIndex, setClassSelectedIndex] = useState<IndexPath>(new IndexPath(0));
-	const [houseSelectedIndex, setHouseSelectedIndex] = useState<IndexPath>(new IndexPath(0));
-	const [statusSelectedIndex, setStatusSelectedIndex] = useState<IndexPath>(new IndexPath(0));
-	const [membershipSelectedIndex, setMembershipSelectedIndex] = useState<IndexPath>(new IndexPath(0));
+	const [selectedYear, setSelectedYear] = useState(null);
+	const [selectedClass, setSelectedClass] = useState(null);
+	const [selectedHouse, setSelectedHouse] = useState(null);
+	const [selectedStatus, setSelectedStatus] = useState(null);
+	const [selectedMembership, setSelectedMembership] = useState({label: 'General', value: 'General'});
 
 	useEffect(() => {
 		if (params.closeDialog) {
 			setVisible(true);
-			// setShowAlertDialog(true);
 		}
 	}, [params.closeDialog]);
 
@@ -31,51 +34,44 @@ export default function RegisterScreen() {
 		}
 	}, [params.pageNumber]);
 
-	interface SelectItemData {
-		key: string;
-	  }
-
-	const renderOption = (item: SelectItemData): React.ReactElement => (
-		<SelectItem key={item.key} title={item.key} />
-	);
-
 	const yearSelectItems = [
-		{key: '2025'},
-		{key: '2024'},
-		{key: '2023'},
+		{label: '2025', value: '2025'},
+		{label: '2024', value: '2024'},
+		{label: '2023', value: '2023'},
 	];
 
 	const classSelectItems = [
-		{key: '6A'},
-		{key: '6B'},
-		{key: '6C'},
-		{key: '6D'},
+		{label: '6A', value: '6A'},
+		{label: '6B', value: '6B'},
+		{label: '6C', value: '6C'},
+		{label: '6D', value: '6D'},
 	];
 
 	const houseSelectItems = [
-		{key: 'Blue'},
-		{key: 'Green'},
-		{key: 'White'},
-		{key: 'Red'},
+		{label: 'Blue', value: 'Blue'},
+		{label: 'Green', value: 'Green'},
+		{label: 'White', value: 'White'},
+		{label: 'Red', value: 'Red'},
 	];
 
 	const statusSelectItems = [
-		{key: 'Working'},
-		{key: 'Studying'},
-		{key: 'Unemployed'},
+		{label: 'Working', value: 'Working'},
+		{label: 'Studying', value: 'Studying'},
+		{label: 'Unemployed', value: 'Unemployed'},
 	];
 
 	const membershipSelectItems = [
-		{key: 'General'},
-		{key: 'Permanent'},
+		{label: 'General', value: 'General'},
+		{label: 'Permanent', value: 'Permanent'},
 	];
+
 
 	return (
 		<View style={styles.container}>
 
 			<View style={{
 				position: 'absolute', 
-				bottom: 65, 
+				top: 10, 
 				left: 0, 
 				zIndex: 100,
 				flexDirection: 'row',
@@ -85,22 +81,21 @@ export default function RegisterScreen() {
 				<View style={{
 					flexDirection: 'row',
 					justifyContent: 'center',
-					backgroundColor: 'rgba(73,118,180,0.1)',
 					paddingBlock: 5,
 					paddingInline: 20,
 					borderRadius: 50,
 					}}>
 					<FontAwesome name="user" size={16} color={pageNumber==0?'rgba(73,118,180,1)':"rgba(73,118,180,0.5)"} style={{marginInline: 5}} />
-					<Entypo name="dot-single" size={16} color="rgba(73,118,180,0.5)" />
+					<MaterialIcons name="arrow-forward-ios" size={16} color="rgba(73,118,180,0.5)" />
 					<FontAwesome name="graduation-cap" size={16} color={pageNumber==1?'rgba(73,118,180,1)':"rgba(73,118,180,0.5)"} style={{marginInline: 5}} />
-					<Entypo name="dot-single" size={16} color="rgba(73,118,180,0.5)" />
+					<MaterialIcons name="arrow-forward-ios" size={16} color="rgba(73,118,180,0.5)" />
 					<MaterialIcons name="work" size={16} color={pageNumber==2?'rgba(73,118,180,1)':"rgba(73,118,180,0.5)"} style={{marginInline: 5}} />
-					<Entypo name="dot-single" size={16} color="grrgba(73,118,180,0.5)ay" />
+					<MaterialIcons name="arrow-forward-ios" size={16} color="rgba(73,118,180,0.5)" />
 					<FontAwesome6 name="people-group" size={16} color={pageNumber==3?'rgba(73,118,180,1)':"rgba(73,118,180,0.5)"} style={{marginInline: 5}} />
 				</View>
 			</View>
 
-			<ViewPager swipeEnabled={false} selectedIndex={pageNumber}>
+			<ViewPager style={styles.viewPager} swipeEnabled={false} selectedIndex={pageNumber}>
 				<Layout style={styles.tab} level='1'>
 					<Text category='h6' style={styles.heading}>Personal Particulars</Text>
 
@@ -132,6 +127,7 @@ export default function RegisterScreen() {
 					<Text style={styles.label}>Address</Text>
 					<Input
 						multiline={true}
+						style={styles.inputBox}
 						textStyle={styles.textArea}
 					/>
 
@@ -140,47 +136,76 @@ export default function RegisterScreen() {
 					<Text category='h6' style={styles.heading}>Graudation Information</Text>
 
 					<Text style={styles.label}>Year of Graduation</Text>
-					<Select
-						style={styles.select}
-						selectedIndex={yearSelectedIndex}
-						value={yearSelectItems[yearSelectedIndex.row].key}
-						onSelect={index => setYearSelectedIndex(index as IndexPath)}
-					>
-						{yearSelectItems.map(renderOption)}
-					</Select>
+					<Dropdown
+						style={styles.dropdown}
+						placeholderStyle={styles.placeholderStyle}
+						selectedTextStyle={styles.selectedTextStyle}
+						iconStyle={styles.iconStyle}
+						data={yearSelectItems}
+						maxHeight={300}
+						labelField="label"
+						valueField="value"
+						placeholder=""
+						value={selectedYear}
+						onChange={item => {
+							setSelectedYear(item.value);
+						}}
+					/>
 
+					
 					<Text style={styles.label}>Class</Text>
-					<Select
-						style={styles.select}
-						selectedIndex={classSelectedIndex}
-						value={classSelectItems[classSelectedIndex.row].key}
-						onSelect={index => setClassSelectedIndex(index as IndexPath)}
-					>
-						{classSelectItems.map(renderOption)}
-					</Select>
+					<Dropdown
+						style={styles.dropdown}
+						placeholderStyle={styles.placeholderStyle}
+						selectedTextStyle={styles.selectedTextStyle}
+						iconStyle={styles.iconStyle}
+						data={classSelectItems}
+						maxHeight={300}
+						labelField="label"
+						valueField="value"
+						placeholder=""
+						value={selectedClass}
+						onChange={item => {
+							setSelectedClass(item.value);
+						}}
+					/>
 
 					<Text style={styles.label}>House</Text>
-					<Select
-						style={styles.select}
-						selectedIndex={houseSelectedIndex}
-						value={houseSelectItems[houseSelectedIndex.row].key}
-						onSelect={index => setHouseSelectedIndex(index as IndexPath)}
-					>
-						{houseSelectItems.map(renderOption)}
-					</Select>
+					<Dropdown
+						style={styles.dropdown}
+						placeholderStyle={styles.placeholderStyle}
+						selectedTextStyle={styles.selectedTextStyle}
+						iconStyle={styles.iconStyle}
+						data={houseSelectItems}
+						maxHeight={300}
+						labelField="label"
+						valueField="value"
+						placeholder=""
+						value={selectedHouse}
+						onChange={item => {
+							setSelectedHouse(item.value);
+						}}
+					/>
 				</Layout>
 				<Layout style={styles.tab} level='1'>
 					<Text category='h6' style={styles.heading}>Current Status</Text>
 
 					<Text style={styles.label}>Status</Text>
-					<Select
-						style={styles.select}
-						selectedIndex={statusSelectedIndex}
-						value={statusSelectItems[statusSelectedIndex.row].key}
-						onSelect={index => setStatusSelectedIndex(index as IndexPath)}
-					>
-						{statusSelectItems.map(renderOption)}
-					</Select>
+					<Dropdown
+						style={styles.dropdown}
+						placeholderStyle={styles.placeholderStyle}
+						selectedTextStyle={styles.selectedTextStyle}
+						iconStyle={styles.iconStyle}
+						data={statusSelectItems}
+						maxHeight={300}
+						labelField="label"
+						valueField="value"
+						placeholder=""
+						value={selectedStatus}
+						onChange={item => {
+							setSelectedStatus(item.value);
+						}}
+					/>
 
 					<Text style={styles.label}>Institution</Text>
 					<Input
@@ -198,7 +223,7 @@ export default function RegisterScreen() {
 					<View style={{flexDirection: "row", justifyContent: "space-between", alignItems: "center"}}>
 						<Text style={styles.label}>Share my status on the AA website</Text>
 						<Switch
-							trackColor={{false: '#767577', true: '#4976B4'}}
+							trackColor={{false: '#767577', true: '#7CC4EB'}}
 							// thumbColor={isEnabled ? '#f5dd4b' : '#f4f3f4'}
 							// ios_backgroundColor="#3e3e3e"
 							onValueChange={(isChecked): void => {
@@ -214,14 +239,20 @@ export default function RegisterScreen() {
 					<Text category='h6' style={styles.heading}>Alumni Association</Text>
 
 					<Text style={styles.label}>Membership</Text>
-					<Select
-						style={styles.select}
-						selectedIndex={membershipSelectedIndex}
-						value={membershipSelectItems[membershipSelectedIndex.row].key}
-						onSelect={index => setMembershipSelectedIndex(index as IndexPath)}
-					>
-						{membershipSelectItems.map(renderOption)}
-					</Select>
+					<Dropdown
+						style={styles.dropdown}
+						placeholderStyle={styles.placeholderStyle}
+						selectedTextStyle={styles.selectedTextStyle}
+						iconStyle={styles.iconStyle}
+						data={membershipSelectItems}
+						maxHeight={300}
+						labelField="label"
+						valueField="value"
+						value={selectedMembership}
+						onChange={item => {
+							setSelectedMembership(item.value);
+						}}
+					/>
 
 					<View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: "center", marginBottom: 20}}>
 						  <Text style={styles.label}>Fee</Text>
@@ -231,7 +262,7 @@ export default function RegisterScreen() {
 					<View style={{flexDirection: "row", justifyContent: "space-between", alignItems: "center", marginBottom: 20}}>
 						<Text style={styles.label}>Receive alumni news from AA</Text>
 						<Switch
-							trackColor={{false: '#767577', true: '#4976B4'}}
+							trackColor={{false: '#767577', true: '#7CC4EB'}}
 							// thumbColor={isEnabled ? '#f5dd4b' : '#f4f3f4'}
 							// ios_backgroundColor="#3e3e3e"
 							onValueChange={(isChecked): void => {
@@ -247,7 +278,9 @@ export default function RegisterScreen() {
 							}}>
 						<View style={{
 							flexDirection: "row", 
-							backgroundColor: '#eeeeee',
+							backgroundColor: '#f2f9ff',
+							borderWidth: 1,
+							borderColor: '#7CC4EB',
 							width: 250,
 							borderRadius: 10,
 							padding: 15,
@@ -317,10 +350,14 @@ const styles = StyleSheet.create({
 	closeDialogButton: {
 		borderWidth: 0,
 		borderRadius: 5,
+		color: '#16297C',
 	},
 	highlightDialogButton: {
-		backgroundColor: '#0E6279',
+		backgroundColor: '#16297C',
 		color: '#ffffff',
+	},
+	viewPager: {
+		marginTop: 20,
 	},
 	tab: {
 	  height: '100%',
@@ -329,18 +366,38 @@ const styles = StyleSheet.create({
 	inputBox: {
 		marginBottom: 20,
 		borderRadius: 5,
+		backgroundColor: '#f2f9ff',
+		borderColor: '#7CC4EB',
 	},
 	inputBoxText: {
 		color: '#16297C',
+		backgroundColor: '#f2f9ff',
 	},
 	textArea: {
 		marginBottom: 20,
 		borderRadius: 5,
 		minHeight: 64,
 	},
-	select: {
+	dropdown: {
 		marginBottom: 20,
 		borderRadius: 5,
+		borderWidth: 1,
+		borderColor: '#7CC4EB',
+		paddingInline: 10,
+		paddingBlock: 10,
+		color: '#16297C',
+		backgroundColor: '#f2f9ff',
+	}, 
+	placeholderStyle: {
+		fontSize: 16,
+	},
+	selectedTextStyle: {
+		fontSize: 16,
+		color: '#16297C',
+	},
+	iconStyle: {
+		width: 20,
+		height: 20,
 	},
 	buttonGroup: {
 		margin: 2,
@@ -348,7 +405,7 @@ const styles = StyleSheet.create({
 	tlgirl: {
 		height: 152,
 		width: 100,
-		left: -6,
+		left: -8,
 		zIndex: 100
 	},
 });

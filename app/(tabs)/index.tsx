@@ -5,28 +5,19 @@ import HeaderSemiCircle from '@/components/HeaderSemiCircle';
 import { router } from 'expo-router';
 
 import * as eva from '@eva-design/eva';
-import { Layout, Icon, IconElement, Input, Text, Button, IndexPath } from '@ui-kitten/components';
-import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import { Layout, Icon, IconElement, Input, Text, Button, IndexPath, Select, SelectItem } from '@ui-kitten/components';
 import MaterialCommunityIcons from '@expo/vector-icons/build/MaterialCommunityIcons';
 
-
-// const AlertIcon = (props: any): IconElement => (
-// 	<Icon
-// 	  {...props}
-// 	  name='alert-circle-outline'
-// 	/>
-//   );
 
 export default function MembershipScreen() {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const [secureTextEntry, setSecureTextEntry] = useState(true);
 
-	const [classSelectedIndex, setClassSelectedIndex] = useState<IndexPath>(new IndexPath(0));
-	
 	const toggleSecureEntry = (): void => {
 		setSecureTextEntry(!secureTextEntry);
 	};
+
 
 	return (
 		<View style={styles.container}>
@@ -50,11 +41,13 @@ export default function MembershipScreen() {
 					style={styles.input}
 					value={password}
 					placeholder='Password'
+					size='large'
 					accessoryRight={
 						<TouchableWithoutFeedback onPress={toggleSecureEntry}>
 							<MaterialCommunityIcons 
 								name={secureTextEntry ? 'eye-off' : 'eye'}
-								size={28} />
+								color="#7CC4EB"
+								size={24} />
 						</TouchableWithoutFeedback>
 					}
 					secureTextEntry={secureTextEntry}
@@ -75,6 +68,7 @@ export default function MembershipScreen() {
 					>
 					Join
 				</Button>
+
 
 			</Layout>
 		</View>
@@ -119,14 +113,14 @@ const styles = StyleSheet.create({
 		zIndex: 1,
 	},
 	signInButton: {
-		backgroundColor: "#0E6279",
+		backgroundColor: "#16297C",
 		borderWidth: 0,
 		borderRadius: 50,
 		marginTop: 20,
 		width: 200,
 	},
 	joinButton: {
-		backgroundColor: "#0E6279",
+		backgroundColor: "#16297C",
 		borderWidth: 0,
 		borderRadius: 50,
 		marginTop: 20,
@@ -135,6 +129,8 @@ const styles = StyleSheet.create({
 	input: {
 		width: '70%',
 		marginBottom: 6,
+		backgroundColor: '#f2f9ff',
+		borderColor: '#7CC4EB',
 	},
 	captionContainer: {
 		display: 'flex',

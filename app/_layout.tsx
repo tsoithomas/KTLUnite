@@ -63,8 +63,8 @@ function RootLayoutNav() {
 		<ApplicationProvider {...eva} theme={eva.light}>
 			<ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
 				<ActionSheetProvider>
-					<Stack>
-						<Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+					<Stack screenOptions={{autoHideHomeIndicator: true}}>
+						<Stack.Screen name="(tabs)" options={{ headerShown: false}} />
 						<Stack.Screen name="modal" options={{ 
 							presentation: 'modal', 
 							headerStyle: {backgroundColor: '#7CC4EB'},
