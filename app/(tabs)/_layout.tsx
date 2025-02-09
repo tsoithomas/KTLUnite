@@ -50,7 +50,7 @@ export default function TabLayout() {
 			<Tabs.Screen
 				name="index"
 				options={{
-					title: t('tab.account'),
+					title: t('main.account'),
 					// headerTitle: 'Alumni Association',
 					headerTitle: () => (
 						<View style={styles.headerTitle}>
@@ -93,8 +93,8 @@ export default function TabLayout() {
 			<Tabs.Screen
 				name="activities"
 				options={{
-					title: t('tab.events'),
-					headerTitle: t('tab.eventsTitle'),
+					title: t('main.events'),
+					headerTitle: t('main.eventsTitle'),
 					headerStyle: {backgroundColor: '#7CC4EB'},
 					headerTitleAlign: 'center',
 					headerTintColor: '#16297C',
@@ -121,8 +121,8 @@ export default function TabLayout() {
 			<Tabs.Screen
 				name="news"
 				options={{
-					title:t('tab.news'),
-					headerTitle: t('tab.newsTitle'),
+					title:t('main.news'),
+					headerTitle: t('main.newsTitle'),
 					headerTitleAlign: 'center',
 					headerStyle: {backgroundColor: '#7CC4EB'},
 					headerTintColor: '#16297C',
@@ -149,8 +149,8 @@ export default function TabLayout() {
 			<Tabs.Screen
 				name="settings"
 				options={{
-					title: t('tab.settings'),
-					headerTitle: t('tab.settingsTitle'),
+					title: t('main.settings'),
+					headerTitle: t('main.settingsTitle'),
 					headerTitleAlign: 'center',
 					headerStyle: {
 						backgroundColor: '#7CC4EB'

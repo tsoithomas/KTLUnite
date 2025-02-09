@@ -15,11 +15,12 @@ export default function RegisterScreen() {
 	const [visible, setVisible] = useState(false);
 	const [pageNumber, setPageNumber] = useState(0);
 	const [shareStatusChecked, setShareStatusChecked] = useState(true);
+	const [receiveNewsChecked, setReceiveNewsChecked] = useState(true);
 	const [selectedYear, setSelectedYear] = useState(null);
 	const [selectedClass, setSelectedClass] = useState(null);
 	const [selectedHouse, setSelectedHouse] = useState(null);
 	const [selectedStatus, setSelectedStatus] = useState(null);
-	const [selectedMembership, setSelectedMembership] = useState({label: 'General', value: 'General'});
+	const [selectedMembership, setSelectedMembership] = useState('general');
 
 	useEffect(() => {
 		if (params.closeDialog) {
@@ -33,35 +34,40 @@ export default function RegisterScreen() {
 		}
 	}, [params.pageNumber]);
 
-	const yearSelectItems = [
-		{label: '2025', value: '2025'},
-		{label: '2024', value: '2024'},
-		{label: '2023', value: '2023'},
-	];
+	const currentYear = new Date().getFullYear();
+	const yearSelectItems = Array.from(
+		{ length: currentYear - 1949 + 1 }, 
+		(_, i) => {
+			const year = currentYear - i;
+			return { label: String(year), value: String(year) };
+		}
+	);
 
-	const classSelectItems = [
-		{label: '6A', value: '6A'},
-		{label: '6B', value: '6B'},
-		{label: '6C', value: '6C'},
-		{label: '6D', value: '6D'},
-	];
+	const classSelectItems = Array.from({ length: 6 }, (_, form) => {
+		const formNumber = 6 - form; 
+		return ['A', 'B', 'C', 'D'].map(classLetter => ({
+			label: `${formNumber}${classLetter}`,
+			value: `${formNumber}${classLetter}`
+		}));
+	}).flat();
 
 	const houseSelectItems = [
-		{label: 'Blue', value: 'Blue'},
-		{label: 'Green', value: 'Green'},
-		{label: 'White', value: 'White'},
-		{label: 'Red', value: 'Red'},
+		{label: t('register.redHouse'), value: 'red'},
+		{label: t('register.greenHouse'), value: 'green'},
+		{label: t('register.purpleHouse'), value: 'purple'},
+		{label: t('register.blueHouse'), value: 'blue'},
 	];
 
 	const statusSelectItems = [
-		{label: 'Working', value: 'Working'},
-		{label: 'Studying', value: 'Studying'},
-		{label: 'Unemployed', value: 'Unemployed'},
+		{label: t('register.working'), value: 'working'},
+		{label: t('register.studying'), value: 'studying'},
+		{label: t('register.unemployed'), value: 'unemployed'},
+		{label: t('register.retired'), value: 'retired'},
 	];
 
 	const membershipSelectItems = [
-		{label: 'General', value: 'General'},
-		{label: 'Permanent', value: 'Permanent'},
+		{label: t('register.generalMembership'), value: 'general'},
+		{label: t('register.permanentMembership'), value: 'permanent'},
 	];
 
 
@@ -132,9 +138,9 @@ export default function RegisterScreen() {
 
 				</Layout>
 				<Layout style={styles.tab} level='1'>
-					<Text category='h6' style={styles.heading}>Graudation Information</Text>
+					<Text category='h6' style={styles.heading}>{t('register.graduationInformation')}</Text>
 
-					<Text style={styles.label}>Year of Graduation</Text>
+					<Text style={styles.label}>{t('register.yearOfGraduation')}</Text>
 					<Dropdown
 						style={styles.dropdown}
 						placeholderStyle={styles.placeholderStyle}
@@ -152,7 +158,7 @@ export default function RegisterScreen() {
 					/>
 
 					
-					<Text style={styles.label}>Class</Text>
+					<Text style={styles.label}>{t('register.class')}</Text>
 					<Dropdown
 						style={styles.dropdown}
 						placeholderStyle={styles.placeholderStyle}
@@ -169,7 +175,7 @@ export default function RegisterScreen() {
 						}}
 					/>
 
-					<Text style={styles.label}>House</Text>
+					<Text style={styles.label}>{t('register.house')}</Text>
 					<Dropdown
 						style={styles.dropdown}
 						placeholderStyle={styles.placeholderStyle}
@@ -187,9 +193,9 @@ export default function RegisterScreen() {
 					/>
 				</Layout>
 				<Layout style={styles.tab} level='1'>
-					<Text category='h6' style={styles.heading}>Current Status</Text>
+					<Text category='h6' style={styles.heading}>{t('register.currentStatus')}</Text>
 
-					<Text style={styles.label}>Status</Text>
+					<Text style={styles.label}>{t('register.status')}</Text>
 					<Dropdown
 						style={styles.dropdown}
 						placeholderStyle={styles.placeholderStyle}
@@ -206,13 +212,13 @@ export default function RegisterScreen() {
 						}}
 					/>
 
-					<Text style={styles.label}>Institution</Text>
+					<Text style={styles.label}>{t('register.institution')}</Text>
 					<Input
 						placeholder=''
 						style={styles.inputBox}
 					/>
 
-					<Text style={styles.label}>Additional Information</Text>
+					<Text style={styles.label}>{t('register.additionalInformation')}</Text>
 					<Input
 						multiline={true}
 						style={styles.inputBox}
@@ -220,11 +226,9 @@ export default function RegisterScreen() {
 					/>
 
 					<View style={{flexDirection: "row", justifyContent: "space-between", alignItems: "center"}}>
-						<Text style={styles.label}>Share my status on the AA website</Text>
+						<Text style={styles.label}>{t('register.shareStatus')}</Text>
 						<Switch
 							trackColor={{false: '#767577', true: '#7CC4EB'}}
-							// thumbColor={isEnabled ? '#f5dd4b' : '#f4f3f4'}
-							// ios_backgroundColor="#3e3e3e"
 							onValueChange={(isChecked): void => {
 								setShareStatusChecked(isChecked);
 							}}
@@ -235,9 +239,9 @@ export default function RegisterScreen() {
 
 				</Layout>
 				<Layout style={styles.tab} level='1'>
-					<Text category='h6' style={styles.heading}>Alumni Association</Text>
+					<Text category='h6' style={styles.heading}>{t('register.alumniAssociation')}</Text>
 
-					<Text style={styles.label}>Membership</Text>
+					<Text style={styles.label}>{t('register.membership')}</Text>
 					<Dropdown
 						style={styles.dropdown}
 						placeholderStyle={styles.placeholderStyle}
@@ -254,20 +258,20 @@ export default function RegisterScreen() {
 					/>
 
 					<View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: "center", marginBottom: 20}}>
-						  <Text style={styles.label}>Fee</Text>
-						  <Text style={styles.label}>$100</Text>
+						<Text style={styles.label}>{t('register.fee')}</Text>
+						<Text style={styles.label}>
+							${selectedMembership=='permanent'?'1000':'100'}
+						</Text>
 					</View>
 
 					<View style={{flexDirection: "row", justifyContent: "space-between", alignItems: "center", marginBottom: 20}}>
-						<Text style={styles.label}>Receive alumni news from AA</Text>
+						<Text style={styles.label}>{t('register.receiveNews')}</Text>
 						<Switch
 							trackColor={{false: '#767577', true: '#7CC4EB'}}
-							// thumbColor={isEnabled ? '#f5dd4b' : '#f4f3f4'}
-							// ios_backgroundColor="#3e3e3e"
 							onValueChange={(isChecked): void => {
-								setShareStatusChecked(isChecked);
+								setReceiveNewsChecked(isChecked);
 							}}
-							value={shareStatusChecked}
+							value={receiveNewsChecked}
 						/>
 					</View>
 
@@ -285,9 +289,7 @@ export default function RegisterScreen() {
 							padding: 15,
 							}}>
 							<MaterialIcons name="info-outline" size={24} color='#16297C' />
-							<Text style={{color: '#16297C', marginLeft: 5, width: 180}}>
-							The membership fee payment will be arranged offline, and the school office will contact you promptly.
-							</Text>
+							<Text style={{color: '#16297C', marginLeft: 5, width: 180}}>{t('register.membershipInfo')}</Text>
 						</View>
 						<Image 
 							style={styles.tlgirl}
@@ -305,7 +307,7 @@ export default function RegisterScreen() {
 				onBackdropPress={() => {}}
 			>
 				<Card disabled={true}>
-					<Text>Cancel registration?</Text>
+					<Text>{t('register.cancel')}</Text>
 
 					<Layout style={{flexDirection: "row", marginTop: 10, justifyContent: 'space-between'}}>
 						<Button 
@@ -313,10 +315,10 @@ export default function RegisterScreen() {
 							style={styles.closeDialogButton}
 							onPress={() => {setVisible(false)
 								router.dismiss();
-							}}>Yes</Button>
+							}}>{t('register.yes')}</Button>
 						<Button 
 							style={{...styles.closeDialogButton, ...styles.highlightDialogButton}}
-							onPress={() => setVisible(false)}>No</Button>
+							onPress={() => setVisible(false)}>{t('register.no')}</Button>
 					</Layout>
 				</Card>
 			</Modal>
@@ -363,6 +365,7 @@ const styles = StyleSheet.create({
 	  margin: 20,
 	},
 	inputBox: {
+		marginTop: 2,
 		marginBottom: 20,
 		borderRadius: 5,
 		backgroundColor: '#f2f9ff',
@@ -373,11 +376,13 @@ const styles = StyleSheet.create({
 		backgroundColor: '#f2f9ff',
 	},
 	textArea: {
+		marginTop: 2,
 		marginBottom: 20,
 		borderRadius: 5,
 		minHeight: 64,
 	},
 	dropdown: {
+		marginTop: 2,
 		marginBottom: 20,
 		borderRadius: 5,
 		borderWidth: 1,

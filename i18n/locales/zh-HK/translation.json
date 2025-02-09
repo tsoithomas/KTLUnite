@@ -1,16 +1,15 @@
 {
 	"main": {
 		"ktl": "九真",
-		"alumni": "校友會"
-	},
-	"tab": {
+		"alumni": "校友會",
 		"account": "會籍",
 		"events": "校友會活動",
 		"news": "九真動態",
 		"settings": "設定",
 		"eventsTitle": "校友會活動",
 		"newsTitle": "九真動態",
-		"settingsTitle": "設定"
+		"settingsTitle": "設定",
+		"register": "登記"
 	},
 	"home": {
 		"email": "電郵",
@@ -28,6 +27,9 @@
 		"privacyPolicy": "隱私政策"
 	},
 	"register": {
+		"next": "下一頁",
+		"back": "上一頁",
+		"submit": "遞交",
 		"personalParticulars": "個人資料",
 		"englishName": "英文姓名",
 		"chineseName": "中文姓名",
@@ -38,15 +40,28 @@
 		"yearOfGraduation": "畢業年份",
 		"class": "班別",
 		"house": "社",
-		"currentStatus": "現時動態",
+		"currentStatus": "現時狀態",
 		"status": "狀態",
-		"institution": "機械",
+		"institution": "機構",
 		"additionalInformation": "附加資訊",
 		"shareStatus": "在校友會網站上分享我的動態",
 		"alumniAssociation": "校友會",
 		"membership": "會籍",
 		"fee": "會費",
 		"receiveNews": "接收由校友會發出的資訊",
-		"membershipInfo": "會員費付款將會線下安排，學校辦公室將會盡快與你聯絡。"
+		"membershipInfo": "會員費付款將會線下安排，學校辦公室將會盡快與你聯絡。",
+		"redHouse": "仁社",
+		"greenHouse": "禮社",
+		"purpleHouse": "望社",
+		"blueHouse": "誠社",
+		"working": "工作",
+		"studying": "在學",
+		"unemployed": "失業",
+		"retired": "退休",
+		"generalMembership": "普通會員",
+		"permanentMembership": "永久會員",
+		"cancel": "取消登記？",
+		"yes": "是",
+		"no": "否"
 	}
 }

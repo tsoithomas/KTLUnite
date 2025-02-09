@@ -31,7 +31,7 @@ SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
 	const { t } = useTranslation();
-	
+
 	const [loaded, error] = useFonts({
 		SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
 		...FontAwesome.font,
@@ -56,6 +56,7 @@ export default function RootLayout() {
 }
 
 function RootLayoutNav() {
+	const { t } = useTranslation();
 	const colorScheme = useColorScheme();
 	const registerFirstPage = 0, registerPageTotal = 4;
 	const [shareKey, setShareKey] = useState(0);
@@ -95,7 +96,7 @@ function RootLayoutNav() {
 							)
 						}} />
 						<Stack.Screen name="register" options={{ 
-							title: "Register",
+							title: t('main.register'),
 							presentation: 'card', 
 							headerStyle: {backgroundColor: '#7CC4EB'},
 							headerTitleAlign: 'center',
@@ -132,7 +133,7 @@ function RootLayoutNav() {
 									{
 										registerPageNumber == registerFirstPage
 										? <MaterialIcons name="close" size={28} color="#16297C" />
-										: <Text>Back</Text>
+										: <Text>{t('register.back')}</Text>
 									}
 									
 								</TouchableOpacity>
@@ -158,8 +159,8 @@ function RootLayoutNav() {
 								>
 									{
 										registerPageNumber < registerPageTotal-1
-										? <Text>Next</Text>
-										: <Text>Submit</Text>
+										? <Text>{t('register.next')}</Text>
+										: <Text>{t('register.submit')}</Text>
 									}
 								</TouchableOpacity>
 							),

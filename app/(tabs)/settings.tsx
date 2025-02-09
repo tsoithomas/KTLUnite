@@ -91,6 +91,7 @@ export default function SettingsScreen() {
 			<SectionList
 				contentContainerStyle={styles.list}
 				sections={DATA}
+				scrollEnabled={false}
 				keyExtractor={(item) => item.key}
 				renderItem={({ item }) => {
 					if (item.type === 'button') {

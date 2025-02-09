@@ -1,16 +1,15 @@
 {
 	"main": {
 		"ktl": "KTL",
-		"alumni": "Alumni"
-	},
-	"tab": {
+		"alumni": "Alumni",
 		"account": "Account",
 		"events": "Events",
 		"news": "News",
 		"settings": "Settings",
 		"eventsTitle": "Alumni Events",
 		"newsTitle": "School News",
-		"settingsTitle": "Settings"
+		"settingsTitle": "Settings",
+		"register": "Register"
 	},
 	"home": {
 		"email": "Email",
@@ -28,6 +27,9 @@
 		"privacyPolicy": "Privacy Policy"
 	},
 	"register": {
+		"next": "Next",
+		"back": "Back",
+		"submit": "Submit",
 		"personalParticulars": "Personal Particulars",
 		"englishName": "English Name",
 		"chineseName": "Chinese Name",
@@ -47,6 +49,19 @@
 		"membership": "Membership",
 		"fee": "Fee",
 		"receiveNews": "Receive alumni news from AA",
-		"membershipInfo": "The membership fee payment will be arranged offline, and the school office will contact you promptly."
+		"membershipInfo": "The membership fee payment will be arranged offline, and the school office will contact you promptly.",
+		"redHouse": "Red",
+		"greenHouse": "Green",
+		"purpleHouse": "Purple",
+		"blueHouse": "Blue",
+		"working": "Working",
+		"studying": "Studying",
+		"unemployed": "Unemployed",
+		"retired": "Retired",
+		"generalMembership": "General Membership",
+		"permanentMembership": "Permanent Membership",
+		"cancel": "Cancel registration?",
+		"yes": "Yes",
+		"no": "No"
 	}
 }
