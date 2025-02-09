@@ -1,15 +1,53 @@
 import { SectionList, StyleSheet, Switch, TouchableOpacity } from 'react-native';
 import { Text, View } from '@/components/Themed';
 import HeaderSemiCircle from '@/components/HeaderSemiCircle';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useActionSheet } from '@expo/react-native-action-sheet';
 import { useTranslation } from "react-i18next";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import i18n from '@/i18n';
+import { initReactI18next } from "react-i18next";
+import translationEn from "../../i18n/locales/en-US/translation.json";
+import translationZh from "../../i18n/locales/zh-HK/translation.json";
+
+const resources = {
+	"en-US": { translation: translationEn },
+	"zh-HK": { translation: translationZh }
+};
+
 
 export default function SettingsScreen() {
 	const { t } = useTranslation();
 	const [language, setLanguage] = useState('en');
 	const { showActionSheetWithOptions } = useActionSheet();
+
+
+	useEffect(() => {
+		const loadLanguage = async () => {
+			let lang = await AsyncStorage.getItem("language");
+			setLanguage(lang ?? 'en-US');
+		};
+	
+		loadLanguage();
+	}, []);
+
+	useEffect(() => {
+		const saveLanguage = async () => {
+			await AsyncStorage.setItem("language", language);
+			i18n.use(initReactI18next).init({
+				// compatibilityJSON: "v3",
+				resources,
+				lng: language,
+				fallbackLng: "en-US",
+				interpolation: {
+					escapeValue: false,
+				},
+				});
+		};
+	
+		saveLanguage();
+	}, [language]);
 
 	const selectLanguage = () => {
 		const options = ['English', '中文', 'Cancel'];
@@ -22,10 +60,10 @@ export default function SettingsScreen() {
 
 			switch (selectedIndex) {
 				case 0:
-					setLanguage('en');
+					setLanguage('en-US');
 					break;
 				case 1:
-					setLanguage('zh');
+					setLanguage('zh-HK');
 					break;
 		  }});
 	}
@@ -103,7 +141,7 @@ export default function SettingsScreen() {
 									</View>
 
 									<Text style={styles.itemText}>{item.name}</Text>
-									<Text style={styles.itemValue}>{ language == 'zh' ? '中文' : 'English' }</Text>
+									<Text style={styles.itemValue}>{ language == 'zh-HK' ? '中文' : 'English' }</Text>
 								</TouchableOpacity>
 							)
 						}
