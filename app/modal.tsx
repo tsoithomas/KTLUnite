@@ -5,8 +5,10 @@ import WebView from 'react-native-webview';
 import { createRef, useEffect, useLayoutEffect, useState } from 'react';
 import { Share } from 'react-native';
 import { Platform } from 'react-native';
+import { useTranslation } from "react-i18next";
 
 export default function ModalScreen() {
+	const { t } = useTranslation();
 	const params = useLocalSearchParams<{ url: string, title: string, shareKey: string }>();
 	const { width, height } = Dimensions.get('window');
 	const navigation = useNavigation();

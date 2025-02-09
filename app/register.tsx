@@ -3,15 +3,14 @@ import { View } from '@/components/Themed';
 import { useLocalSearchParams, useNavigation } from 'expo-router';
 import { createRef, useEffect, useLayoutEffect, useState } from 'react';
 import { router } from 'expo-router';
-import { Button, IndexPath, Card, Input, Layout, Modal, Select, SelectItem, Text, ViewPager } from '@ui-kitten/components';
-import { Entypo, FontAwesome, FontAwesome6, MaterialIcons } from '@expo/vector-icons';
+import { Button, Card, Input, Layout, Modal, Text, ViewPager } from '@ui-kitten/components';
+import { FontAwesome, FontAwesome6, MaterialIcons } from '@expo/vector-icons';
 import { Image } from 'expo-image';
-
-
 import { Dropdown } from 'react-native-element-dropdown';
-
+import { useTranslation } from "react-i18next";
 
 export default function RegisterScreen() {
+	const { t } = useTranslation();
 	const params = useLocalSearchParams<{ closeDialog: string, pageNumber: string }>();
 	const [visible, setVisible] = useState(false);
 	const [pageNumber, setPageNumber] = useState(0);
@@ -97,34 +96,34 @@ export default function RegisterScreen() {
 
 			<ViewPager style={styles.viewPager} swipeEnabled={false} selectedIndex={pageNumber}>
 				<Layout style={styles.tab} level='1'>
-					<Text category='h6' style={styles.heading}>Personal Particulars</Text>
+					<Text category='h6' style={styles.heading}>{t('register.personalParticulars')}</Text>
 
-					<Text style={styles.label}>English Name</Text>
+					<Text style={styles.label}>{t('register.englishName')}</Text>
 					<Input
 						placeholder='Amy Chan'
 						style={styles.inputBox}
 						textStyle={styles.inputBoxText}
 					/>
 
-					<Text style={styles.label}>Chinese Name</Text>
+					<Text style={styles.label}>{t('register.chineseName')}</Text>
 					<Input
 						placeholder='陳小美'
 						style={styles.inputBox}
 					/>
 
-					<Text style={styles.label}>Email</Text>
+					<Text style={styles.label}>{t('register.email')}</Text>
 					<Input
 						placeholder='amychan@gmail.com'
 						style={styles.inputBox}
 					/>
 
-					<Text style={styles.label}>Contact Number</Text>
+					<Text style={styles.label}>{t('register.contactNumber')}</Text>
 					<Input
 						placeholder='99887766'
 						style={styles.inputBox}
 					/>
 
-					<Text style={styles.label}>Address</Text>
+					<Text style={styles.label}>{t('register.address')}</Text>
 					<Input
 						multiline={true}
 						style={styles.inputBox}

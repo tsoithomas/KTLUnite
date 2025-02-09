@@ -1,12 +1,13 @@
 import { ActivityIndicator, Dimensions, StyleSheet } from 'react-native';
-
 import { View } from '@/components/Themed';
 import HeaderSemiCircle from '@/components/HeaderSemiCircle';
 import WebView from 'react-native-webview';
 import { useLocalSearchParams } from 'expo-router';
 import { createRef, useEffect, useState } from 'react';
+import { useTranslation } from "react-i18next";
 
 export default function ActivitiesScreen() {
+	const { t } = useTranslation();
 	const params = useLocalSearchParams<{ reloadKey: string }>();
 	const [reloadKey, setReloadKey] = useState(0);
 	const { width, height } = Dimensions.get('window');

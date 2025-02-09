@@ -4,9 +4,10 @@ import HeaderSemiCircle from '@/components/HeaderSemiCircle';
 import { useState } from 'react';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useActionSheet } from '@expo/react-native-action-sheet';
-
+import { useTranslation } from "react-i18next";
 
 export default function SettingsScreen() {
+	const { t } = useTranslation();
 	const [language, setLanguage] = useState('en');
 	const { showActionSheetWithOptions } = useActionSheet();
 
@@ -40,43 +41,43 @@ export default function SettingsScreen() {
 
 	const DATA: Section[] = [
 		{
-			title: 'Interface',
+			title: t('settings.interface'),
 			data: [
 				{ 
 					type: 'button',
 					key: 'language', 
-					name: 'Language', 
+					name: t('settings.language'), 
 					onPress: selectLanguage,
 					icon: <MaterialIcons name="language" size={24} color="black" />
 				},
 			],
 		},
 		{
-			title: 'Membership',
+			title: t('settings.membership'),
 			data: [
 				{
 					type: 'button',
 					key: 'membership',
-					name: 'Log in',
+					name: t('settings.signIn'),
 					onPress: () => alert('View Terms of Service'),
 					icon: <MaterialIcons name="login" size={24} color="black" />
 				},
 			],
 		},
 		{
-			title: 'About',
+			title: t('settings.about'),
 			data: [
 				{ 
 					type: 'button',
 					key: 'tos', 
-					name: 'Terms of Service', 
+					name: t('settings.termsOfService'), 
 					onPress: () => alert('View Terms of Service'),
 					icon: <MaterialIcons name="room-service" size={24} color="black" />
 				},
 				{ 
 					type: 'button',
 					key: 'pp', 
-					name: 'Privacy Policy', 
+					name: t('settings.privacyPolicy'), 
 					onPress: () => alert('View Privacy Policy'),
 					icon: <MaterialIcons name="privacy-tip" size={24} color="black" />
 				},

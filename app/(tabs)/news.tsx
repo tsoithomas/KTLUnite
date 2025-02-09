@@ -4,8 +4,10 @@ import HeaderSemiCircle from '@/components/HeaderSemiCircle';
 import WebView, { WebViewMessageEvent } from 'react-native-webview';
 import { router, useLocalSearchParams } from 'expo-router';
 import { createRef, useEffect, useState } from 'react';
+import { useTranslation } from "react-i18next";
 
 export default function NewsScreen() {
+	const { t } = useTranslation();
 	const params = useLocalSearchParams<{ reloadKey: string }>();
 	const [reloadKey, setReloadKey] = useState(0);
 	const webViewRef = createRef<WebView>();

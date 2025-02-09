@@ -7,9 +7,12 @@ import { router } from 'expo-router';
 import * as eva from '@eva-design/eva';
 import { Layout, Icon, IconElement, Input, Text, Button, IndexPath, Select, SelectItem } from '@ui-kitten/components';
 import MaterialCommunityIcons from '@expo/vector-icons/build/MaterialCommunityIcons';
+import { useTranslation } from "react-i18next";
 
 
 export default function MembershipScreen() {
+	const { t } = useTranslation();
+
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const [secureTextEntry, setSecureTextEntry] = useState(true);
@@ -31,7 +34,7 @@ export default function MembershipScreen() {
 					
 				<Input
 					style={styles.input}
-					placeholder='Email'
+					placeholder={t('home.email')}
 					value={email}
 					size='large'
 					onChangeText={nextValue => setEmail(nextValue)}
@@ -40,7 +43,7 @@ export default function MembershipScreen() {
 				<Input
 					style={styles.input}
 					value={password}
-					placeholder='Password'
+					placeholder={t('home.password')}
 					size='large'
 					accessoryRight={
 						<TouchableWithoutFeedback onPress={toggleSecureEntry}>
@@ -55,7 +58,7 @@ export default function MembershipScreen() {
 				/>
 
 				<Button style={styles.signInButton}>
-					Sign in
+					{t('home.signIn')}
 				</Button>
 
 				<Button 
@@ -66,7 +69,7 @@ export default function MembershipScreen() {
 						});
 					}}
 					>
-					Join
+					{t('home.join')}
 				</Button>
 
 

@@ -1,0 +1,52 @@
+{
+	"main": {
+		"ktl": "KTL",
+		"alumni": "Alumni"
+	},
+	"tab": {
+		"account": "Account",
+		"events": "Events",
+		"news": "News",
+		"settings": "Settings",
+		"eventsTitle": "Alumni Events",
+		"newsTitle": "School News",
+		"settingsTitle": "Settings"
+	},
+	"home": {
+		"email": "Email",
+		"password": "Password",
+		"signIn": "Sign in",
+		"join": "Join"
+	},
+	"settings": {
+		"interface": "Interface",
+		"language": "Language",
+		"membership": "Membership",
+		"signIn": "Sign in",
+		"about": "About",
+		"termsOfService": "Terms of Service",
+		"privacyPolicy": "Privacy Policy"
+	},
+	"register": {
+		"personalParticulars": "Personal Particulars",
+		"englishName": "English Name",
+		"chineseName": "Chinese Name",
+		"email": "Email",
+		"contactNumber": "Contact Number",
+		"address": "Address",
+		"graduationInformation": "Graduation Information",
+		"yearOfGraduation": "Year of Graduation",
+		"class": "Class",
+		"house": "House",
+		"currentStatus": "Current Status",
+		"status": "Status",
+		"institution": "Institution",
+		"additionalInformation": "Additional Information",
+		"shareStatus": "Share my status on the AA website",
+		"alumniAssociation": "Alumni Association",
+		"membership": "Membership",
+		"fee": "Fee",
+		"receiveNews": "Receive alumni news from AA",
+		"membershipInfo": "The membership fee payment will be arranged offline, and the school office will contact you promptly."
+	}
+}

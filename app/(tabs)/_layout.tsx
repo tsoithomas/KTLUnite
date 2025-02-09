@@ -6,8 +6,11 @@ import { useColorScheme } from '@/components/useColorScheme';
 import { useClientOnlyValue } from '@/components/useClientOnlyValue';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { Image } from 'expo-image';
+import { useTranslation } from "react-i18next";
 
 export default function TabLayout() {
+	const { t } = useTranslation();
+
 	const colorScheme = useColorScheme();
 	const [reloadKey, setReloadKey] = useState(0);
 	
@@ -47,15 +50,15 @@ export default function TabLayout() {
 			<Tabs.Screen
 				name="index"
 				options={{
-					title: 'Account',
+					title: t('tab.account'),
 					// headerTitle: 'Alumni Association',
 					headerTitle: () => (
 						<View style={styles.headerTitle}>
-							<Text style={styles.titleText}>KTL</Text>
+							<Text style={styles.titleText}>{t('main.ktl')}</Text>
 							<Image style={styles.star}
 								source={require("../../assets/images/star.svg")}
 							/>
-							<Text style={styles.titleText}>Alumni</Text>
+							<Text style={styles.titleText}>{t('main.alumni')}</Text>
 						</View>
 					),
 					headerTitleAlign: 'center',
@@ -90,11 +93,9 @@ export default function TabLayout() {
 			<Tabs.Screen
 				name="activities"
 				options={{
-					title: 'Events',
-					headerStyle: {
-						backgroundColor: '#7CC4EB'
-					},
-					headerTitle: 'Alumni Events',
+					title: t('tab.events'),
+					headerTitle: t('tab.eventsTitle'),
+					headerStyle: {backgroundColor: '#7CC4EB'},
 					headerTitleAlign: 'center',
 					headerTintColor: '#16297C',
 					headerShadowVisible: false,
@@ -120,12 +121,10 @@ export default function TabLayout() {
 			<Tabs.Screen
 				name="news"
 				options={{
-					title: 'News',
-					headerTitle: 'School News',
+					title:t('tab.news'),
+					headerTitle: t('tab.newsTitle'),
 					headerTitleAlign: 'center',
-					headerStyle: {
-						backgroundColor: '#7CC4EB'
-					},
+					headerStyle: {backgroundColor: '#7CC4EB'},
 					headerTintColor: '#16297C',
 					headerShadowVisible: false,
 					tabBarIcon: ({ color }) => <MaterialIcons name="newspaper" size={32} color={ color } />,
@@ -150,8 +149,8 @@ export default function TabLayout() {
 			<Tabs.Screen
 				name="settings"
 				options={{
-					title: 'Settings',
-					headerTitle: 'Settings',
+					title: t('tab.settings'),
+					headerTitle: t('tab.settingsTitle'),
 					headerTitleAlign: 'center',
 					headerStyle: {
 						backgroundColor: '#7CC4EB'

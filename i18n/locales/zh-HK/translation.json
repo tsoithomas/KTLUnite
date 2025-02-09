@@ -1,0 +1,52 @@
+{
+	"main": {
+		"ktl": "九真",
+		"alumni": "校友會"
+	},
+	"tab": {
+		"account": "會籍",
+		"events": "校友會活動",
+		"news": "九真動態",
+		"settings": "設定",
+		"eventsTitle": "校友會活動",
+		"newsTitle": "九真動態",
+		"settingsTitle": "設定"
+	},
+	"home": {
+		"email": "電郵",
+		"password": "密碼",
+		"signIn": "登入",
+		"join": "加入舊生會"
+	},
+	"settings": {
+		"interface": "介面",
+		"language": "語言",
+		"membership": "會籍",
+		"signIn": "登入",
+		"about": "關於",
+		"termsOfService": "服務條款",
+		"privacyPolicy": "隱私政策"
+	},
+	"register": {
+		"personalParticulars": "個人資料",
+		"englishName": "英文姓名",
+		"chineseName": "中文姓名",
+		"email": "電郵",
+		"contactNumber": "聯絡電話",
+		"address": "地址",
+		"graduationInformation": "畢業資料",
+		"yearOfGraduation": "畢業年份",
+		"class": "班別",
+		"house": "社",
+		"currentStatus": "現時動態",
+		"status": "狀態",
+		"institution": "機械",
+		"additionalInformation": "附加資訊",
+		"shareStatus": "在校友會網站上分享我的動態",
+		"alumniAssociation": "校友會",
+		"membership": "會籍",
+		"fee": "會費",
+		"receiveNews": "接收由校友會發出的資訊",
+		"membershipInfo": "會員費付款將會線下安排，學校辦公室將會盡快與你聯絡。"
+	}
+}
