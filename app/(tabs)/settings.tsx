@@ -6,22 +6,13 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { useActionSheet } from '@expo/react-native-action-sheet';
 import { useTranslation } from "react-i18next";
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import i18n from '@/i18n';
-import { initReactI18next } from "react-i18next";
-import translationEn from "../../i18n/locales/en-US/translation.json";
-import translationZh from "../../i18n/locales/zh-HK/translation.json";
-
-const resources = {
-	"en-US": { translation: translationEn },
-	"zh-HK": { translation: translationZh }
-};
+import { loadLanguage } from "../../i18n/loadLangage";
 
 
 export default function SettingsScreen() {
 	const { t } = useTranslation();
-	const [language, setLanguage] = useState('en');
+	const [language, setLanguage] = useState('en-US');
 	const { showActionSheetWithOptions } = useActionSheet();
-
 
 	useEffect(() => {
 		const loadLanguage = async () => {
@@ -35,15 +26,7 @@ export default function SettingsScreen() {
 	useEffect(() => {
 		const saveLanguage = async () => {
 			await AsyncStorage.setItem("language", language);
-			i18n.use(initReactI18next).init({
-				// compatibilityJSON: "v3",
-				resources,
-				lng: language,
-				fallbackLng: "en-US",
-				interpolation: {
-					escapeValue: false,
-				},
-				});
+			loadLanguage(language);
 		};
 	
 		saveLanguage();
