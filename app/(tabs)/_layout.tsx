@@ -1,24 +1,24 @@
 import React, { useState } from 'react';
-import { Tabs } from 'expo-router';
-import { StyleSheet, TouchableOpacity, View, Text } from 'react-native';
-import { router } from 'expo-router';
-import { useColorScheme } from '@/components/useColorScheme';
+import { StyleSheet, TouchableOpacity, View, Text, useColorScheme } from 'react-native';
+import { Tabs, router } from 'expo-router';
+import { useTranslation } from "react-i18next";
+import Colors from '@/constants/Colors';
 import { useClientOnlyValue } from '@/components/useClientOnlyValue';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { Image } from 'expo-image';
-import { useTranslation } from "react-i18next";
 
 export default function TabLayout() {
 	const { t } = useTranslation();
-
 	const colorScheme = useColorScheme();
+	const theme = Colors[colorScheme || "light"];
+
 	const [reloadKey, setReloadKey] = useState(0);
 	
 	return (
 		<Tabs
 			screenOptions={{
-				tabBarActiveTintColor: '#ffffff',
-				tabBarInactiveTintColor: 'rgba(255,255,255,0.6)',
+				tabBarActiveTintColor: 	theme.tabIconDefault,
+				tabBarInactiveTintColor: theme.tabIconSelected,
 				headerShown: useClientOnlyValue(false, true),
 				tabBarStyle: {
 					position: 'absolute',
@@ -28,10 +28,9 @@ export default function TabLayout() {
 					elevation: 0,
 					borderTopStartRadius: 30,
 					borderTopEndRadius: 30,
-					borderColor: '#7CC4EB',
 					borderWidth: 0,
 					borderTopWidth: 0,
-					backgroundColor: '#16297C',
+					backgroundColor: theme.tabIconBackground,
 					marginHorizontal: 0,
 					paddingTop: 8,
 					paddingHorizontal: 20,
@@ -82,10 +81,8 @@ export default function TabLayout() {
 					// 	  </View>
 					// 	);
 					// },
-					headerStyle: {
-						backgroundColor: '#7CC4EB',
-					},
-					headerTintColor: '#16297C',
+					headerStyle: {backgroundColor: theme.tint},
+					headerTintColor: theme.text,
 					headerShadowVisible: false,
 					tabBarIcon: ({ color }) => <MaterialIcons name="account-circle" size={32} color={ color }/>,
 				}}
@@ -95,9 +92,9 @@ export default function TabLayout() {
 				options={{
 					title: t('main.events'),
 					headerTitle: t('main.eventsTitle'),
-					headerStyle: {backgroundColor: '#7CC4EB'},
+					headerStyle: {backgroundColor: theme.tint},
 					headerTitleAlign: 'center',
-					headerTintColor: '#16297C',
+					headerTintColor: theme.text,
 					headerShadowVisible: false,
 					tabBarIcon: ({ color }) => <MaterialIcons name="event" size={32} color={color} />,
 					headerRight: () => (
@@ -113,7 +110,7 @@ export default function TabLayout() {
 								});
 							}}
 						>
-							<MaterialIcons name="refresh" size={28} color='#16297C' />
+							<MaterialIcons name="refresh" size={28} color={theme.text} />
 						</TouchableOpacity>
 					),
 				}}
@@ -124,8 +121,8 @@ export default function TabLayout() {
 					title:t('main.news'),
 					headerTitle: t('main.newsTitle'),
 					headerTitleAlign: 'center',
-					headerStyle: {backgroundColor: '#7CC4EB'},
-					headerTintColor: '#16297C',
+					headerStyle: {backgroundColor: theme.tint},
+					headerTintColor: theme.text,
 					headerShadowVisible: false,
 					tabBarIcon: ({ color }) => <MaterialIcons name="newspaper" size={32} color={ color } />,
 					headerRight: () => (
@@ -141,7 +138,7 @@ export default function TabLayout() {
 								});
 							}}
 						>
-							<MaterialIcons name="refresh" size={28} color='#16297C' />
+							<MaterialIcons name="refresh" size={28} color={theme.text} />
 						</TouchableOpacity>
 					),
 				}}
@@ -152,10 +149,8 @@ export default function TabLayout() {
 					title: t('main.settings'),
 					headerTitle: t('main.settingsTitle'),
 					headerTitleAlign: 'center',
-					headerStyle: {
-						backgroundColor: '#7CC4EB'
-					},
-					headerTintColor: '#16297C',
+					headerStyle: {backgroundColor: theme.tint},
+					headerTintColor: theme.text,
 					headerShadowVisible: false,
 					tabBarIcon: ({ color }) => <MaterialIcons name="settings" size={32} color={ color } />,
 				}}

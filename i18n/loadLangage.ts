@@ -8,15 +8,14 @@ export const loadLanguage = (language: string) => {
 		"en-US": { translation: translationEn },
 		"zh-HK": { translation: translationZh }
 	};
-	console.log(language);
 
 	i18n.use(initReactI18next).init({
-	// compatibilityJSON: "v3",
-	resources,
-	lng: language,
-	fallbackLng: "zh-HK",
-	interpolation: {
-		escapeValue: false,
-	},
+		// compatibilityJSON: "v3",
+		resources,
+		lng: language,
+		fallbackLng: "zh-HK",
+		interpolation: {
+			escapeValue: false, 
+		},
 	});
 };

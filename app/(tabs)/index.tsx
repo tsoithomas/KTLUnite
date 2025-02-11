@@ -1,17 +1,18 @@
-import { TouchableWithoutFeedback, View, StyleSheet } from 'react-native';
-import { Image } from 'expo-image';
 import { useState } from 'react';
-import HeaderSemiCircle from '@/components/HeaderSemiCircle';
+import { TouchableWithoutFeedback, View, StyleSheet, useColorScheme } from 'react-native';
 import { router } from 'expo-router';
-
-import * as eva from '@eva-design/eva';
-import { Layout, Icon, IconElement, Input, Text, Button, IndexPath, Select, SelectItem } from '@ui-kitten/components';
-import MaterialCommunityIcons from '@expo/vector-icons/build/MaterialCommunityIcons';
 import { useTranslation } from "react-i18next";
+import Colors from '@/constants/Colors';
+import { Layout, Input, Button } from '@ui-kitten/components';
+import MaterialCommunityIcons from '@expo/vector-icons/build/MaterialCommunityIcons';
+import { Image } from 'expo-image';
+import HeaderSemiCircle from '@/components/HeaderSemiCircle';
 
 
 export default function MembershipScreen() {
 	const { t } = useTranslation();
+	const colorScheme = useColorScheme();
+	const theme = Colors[colorScheme || "light"];
 
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
@@ -49,7 +50,7 @@ export default function MembershipScreen() {
 						<TouchableWithoutFeedback onPress={toggleSecureEntry}>
 							<MaterialCommunityIcons 
 								name={secureTextEntry ? 'eye-off' : 'eye'}
-								color="#7CC4EB"
+								color={theme.tint}
 								size={24} />
 						</TouchableWithoutFeedback>
 					}
@@ -116,14 +117,14 @@ const styles = StyleSheet.create({
 		zIndex: 1,
 	},
 	signInButton: {
-		backgroundColor: "#16297C",
+		backgroundColor: Colors.light.buttonBackground,
 		borderWidth: 0,
 		borderRadius: 50,
 		marginTop: 20,
 		width: 200,
 	},
 	joinButton: {
-		backgroundColor: "#16297C",
+		backgroundColor: Colors.light.buttonBackground,
 		borderWidth: 0,
 		borderRadius: 50,
 		marginTop: 20,
@@ -140,12 +141,12 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		alignItems: 'center',
 	},
-	  captionIcon: {
+	captionIcon: {
 		width: 10,
 		height: 10,
 		marginRight: 5,
 	},
-	  captionText: {
+	captionText: {
 		fontSize: 12,
 		fontWeight: '400',
 		fontFamily: 'opensans-regular',

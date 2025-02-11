@@ -1,16 +1,20 @@
-import { SectionList, StyleSheet, Switch, TouchableOpacity } from 'react-native';
-import { Text, View } from '@/components/Themed';
-import HeaderSemiCircle from '@/components/HeaderSemiCircle';
 import { useEffect, useState } from 'react';
+import { SectionList, StyleSheet, Switch, TouchableOpacity, useColorScheme } from 'react-native';
+import { useTranslation } from "react-i18next";
+import { Text, View } from '@/components/Themed';
+import Colors from '@/constants/Colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useActionSheet } from '@expo/react-native-action-sheet';
-import { useTranslation } from "react-i18next";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { loadLanguage } from "../../i18n/loadLangage";
+import HeaderSemiCircle from '@/components/HeaderSemiCircle';
 
 
 export default function SettingsScreen() {
 	const { t } = useTranslation();
+	const colorScheme = useColorScheme();
+	const theme = Colors[colorScheme || "light"];
+
 	const [language, setLanguage] = useState('en-US');
 	const { showActionSheetWithOptions } = useActionSheet();
 

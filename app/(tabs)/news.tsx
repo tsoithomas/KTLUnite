@@ -1,13 +1,17 @@
-import { ActivityIndicator, Dimensions, StyleSheet, Text } from 'react-native';
-import { View } from '@/components/Themed';
-import HeaderSemiCircle from '@/components/HeaderSemiCircle';
-import WebView, { WebViewMessageEvent } from 'react-native-webview';
-import { router, useLocalSearchParams } from 'expo-router';
 import { createRef, useEffect, useState } from 'react';
+import { ActivityIndicator, Dimensions, StyleSheet, useColorScheme } from 'react-native';
+import { router, useLocalSearchParams } from 'expo-router';
 import { useTranslation } from "react-i18next";
+import { View } from '@/components/Themed';
+import Colors from '@/constants/Colors';
+import WebView, { WebViewMessageEvent } from 'react-native-webview';
+import HeaderSemiCircle from '@/components/HeaderSemiCircle';
 
 export default function NewsScreen() {
 	const { t } = useTranslation();
+	const colorScheme = useColorScheme();
+	const theme = Colors[colorScheme || "light"];
+
 	const params = useLocalSearchParams<{ reloadKey: string }>();
 	const [reloadKey, setReloadKey] = useState(0);
 	const webViewRef = createRef<WebView>();

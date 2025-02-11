@@ -1,25 +1,18 @@
 import "@/global.css";
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { useFonts } from 'expo-font';
-import { Stack, router } from 'expo-router';
-import * as SplashScreen from 'expo-splash-screen';
 import { useEffect, useState } from 'react';
+import { TouchableOpacity, useColorScheme } from 'react-native';
+import { Stack, router } from 'expo-router';
+import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
+import Colors from '@/constants/Colors';
 import 'react-native-reanimated';
-import { useColorScheme } from '@/components/useColorScheme';
-import { TouchableOpacity } from 'react-native';
-import { Entypo, FontAwesome6, MaterialCommunityIcons, MaterialIcons, FontAwesome } from '@expo/vector-icons';
+import { useFonts } from 'expo-font';
+import * as SplashScreen from 'expo-splash-screen';
+import { MaterialIcons, FontAwesome } from '@expo/vector-icons';
 import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 import '@/i18n';
 import { useTranslation } from "react-i18next";
-
 import * as eva from '@eva-design/eva';
 import { ApplicationProvider, Text } from '@ui-kitten/components';
-
-
-export {
-	// Catch any errors thrown by the Layout component.
-	ErrorBoundary,
-} from 'expo-router';
 
 export const unstable_settings = {
 	// Ensure that reloading on `/modal` keeps a back button present.
@@ -31,6 +24,8 @@ SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
 	const { t } = useTranslation();
+	const colorScheme = useColorScheme();
+	const theme = Colors[colorScheme || "light"];
 
 	const [loaded, error] = useFonts({
 		SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),

@@ -1,16 +1,19 @@
-import { StyleSheet, Switch } from 'react-native';
-import { View } from '@/components/Themed';
-import { useLocalSearchParams, useNavigation } from 'expo-router';
 import { createRef, useEffect, useLayoutEffect, useState } from 'react';
-import { router } from 'expo-router';
+import { StyleSheet, Switch, useColorScheme } from 'react-native';
+import { router, useLocalSearchParams, useNavigation } from 'expo-router';
+import { View } from '@/components/Themed';
+import Colors from '@/constants/Colors';
+import { useTranslation } from "react-i18next";
 import { Button, Card, Input, Layout, Modal, Text, ViewPager } from '@ui-kitten/components';
 import { FontAwesome, FontAwesome6, MaterialIcons } from '@expo/vector-icons';
-import { Image } from 'expo-image';
 import { Dropdown } from 'react-native-element-dropdown';
-import { useTranslation } from "react-i18next";
+import { Image } from 'expo-image';
 
 export default function RegisterScreen() {
 	const { t } = useTranslation();
+	const colorScheme = useColorScheme();
+	const theme = Colors[colorScheme || "light"];
+	
 	const params = useLocalSearchParams<{ closeDialog: string, pageNumber: string }>();
 	const [visible, setVisible] = useState(false);
 	const [pageNumber, setPageNumber] = useState(0);

@@ -1,14 +1,16 @@
-import { ActivityIndicator, Dimensions, StyleSheet } from 'react-native';
-import { View } from '@/components/Themed';
-import { useLocalSearchParams, useNavigation } from 'expo-router';
-import WebView from 'react-native-webview';
 import { createRef, useEffect, useLayoutEffect, useState } from 'react';
-import { Share } from 'react-native';
-import { Platform } from 'react-native';
+import { ActivityIndicator, Dimensions, StyleSheet, Platform, Share, useColorScheme } from 'react-native';
+import { useLocalSearchParams, useNavigation } from 'expo-router';
+import { View } from '@/components/Themed';
+import Colors from '@/constants/Colors';
 import { useTranslation } from "react-i18next";
+import WebView from 'react-native-webview';
 
 export default function ModalScreen() {
 	const { t } = useTranslation();
+	const colorScheme = useColorScheme();
+	const theme = Colors[colorScheme || "light"];
+
 	const params = useLocalSearchParams<{ url: string, title: string, shareKey: string }>();
 	const { width, height } = Dimensions.get('window');
 	const navigation = useNavigation();
