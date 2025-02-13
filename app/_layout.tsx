@@ -54,10 +54,10 @@ function RootLayoutNav() {
 	const { t } = useTranslation();
 	const colorScheme = useColorScheme();
 	const registerFirstPage = 0, registerPageTotal = 4;
+	const [registerPageNumber, setRegisterPageNumber] = useState(registerFirstPage);
 	const [shareKey, setShareKey] = useState(0);
 	const [closeDialogKey, setCloseDialogKey] = useState(0);
-	const [registerPageNumber, setRegisterPageNumber] = useState(registerFirstPage);
-
+	const [submitKey, setSubmitKey] = useState(0);
 
 	return (
 		<ApplicationProvider {...eva} theme={eva.light}>
@@ -148,7 +148,13 @@ function RootLayoutNav() {
 											});
 										}
 										else {
-
+											setSubmitKey((prevKey) => prevKey + 1);
+											router.navigate({
+												pathname: '/register',
+												params: {
+													submit: submitKey,
+												},
+											});
 										}
 									}}
 								>

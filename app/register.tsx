@@ -14,7 +14,7 @@ export default function RegisterScreen() {
 	const colorScheme = useColorScheme();
 	const theme = Colors[colorScheme || "light"];
 	
-	const params = useLocalSearchParams<{ closeDialog: string, pageNumber: string }>();
+	const params = useLocalSearchParams<{ closeDialog: string, pageNumber: string, submit: string }>();
 	const [visible, setVisible] = useState(false);
 	const [pageNumber, setPageNumber] = useState(0);
 	const [shareStatusChecked, setShareStatusChecked] = useState(true);
@@ -25,11 +25,49 @@ export default function RegisterScreen() {
 	const [selectedStatus, setSelectedStatus] = useState(null);
 	const [selectedMembership, setSelectedMembership] = useState('general');
 
+	const postData = async (url: string, data: Record<string, string>): Promise<void> => {
+		try {
+			const response = await fetch(url, {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json"
+				},
+				body: JSON.stringify(data)
+			});
+		
+			if (!response.ok) {
+				throw new Error(`HTTP error! Status: ${response.status}`);
+			}
+		
+			const result = await response.json();
+			console.log("Success:", result);
+		} 
+		catch (error) {
+			console.error("Error:", error);
+		}
+	};
+	  
 	useEffect(() => {
 		if (params.closeDialog) {
 			setVisible(true);
 		}
 	}, [params.closeDialog]);
+
+	useEffect(() => {
+		if (params.submit) {
+			console.log('submit');
+
+			const endPoint = "https://portal.ktls.edu.hk/api.php";
+			const data = {
+				key1: "value1", 
+				key2: "value2",
+			}
+
+			postData(endPoint, data);
+			
+			  
+		}
+	}, [params.submit]);
 
 	useEffect(() => {
 		if (params.pageNumber) {
