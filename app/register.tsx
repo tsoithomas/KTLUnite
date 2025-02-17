@@ -1,5 +1,5 @@
 import { createRef, useEffect, useLayoutEffect, useState } from 'react';
-import { StyleSheet, Switch, useColorScheme } from 'react-native';
+import { ScrollView, StyleSheet, Switch, useColorScheme } from 'react-native';
 import { router, useLocalSearchParams, useNavigation } from 'expo-router';
 import { View } from '@/components/Themed';
 import Colors from '@/constants/Colors';
@@ -8,6 +8,7 @@ import { Button, Card, Input, Layout, Modal, Text, ViewPager } from '@ui-kitten/
 import { FontAwesome, FontAwesome6, MaterialIcons } from '@expo/vector-icons';
 import { Dropdown } from 'react-native-element-dropdown';
 import { Image } from 'expo-image';
+import { Connection } from '@/services/Connection'
 
 export default function RegisterScreen() {
 	const { t } = useTranslation();
@@ -17,36 +18,26 @@ export default function RegisterScreen() {
 	const params = useLocalSearchParams<{ closeDialog: string, pageNumber: string, submit: string }>();
 	const [visible, setVisible] = useState(false);
 	const [pageNumber, setPageNumber] = useState(0);
-	const [shareStatusChecked, setShareStatusChecked] = useState(true);
-	const [receiveNewsChecked, setReceiveNewsChecked] = useState(true);
-	const [selectedYear, setSelectedYear] = useState(null);
-	const [selectedClass, setSelectedClass] = useState(null);
-	const [selectedHouse, setSelectedHouse] = useState(null);
-	const [selectedStatus, setSelectedStatus] = useState(null);
-	const [selectedMembership, setSelectedMembership] = useState('general');
 
-	const postData = async (url: string, data: Record<string, string>): Promise<void> => {
-		try {
-			const response = await fetch(url, {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json"
-				},
-				body: JSON.stringify(data)
-			});
-		
-			if (!response.ok) {
-				throw new Error(`HTTP error! Status: ${response.status}`);
-			}
-		
-			const result = await response.json();
-			console.log("Success:", result);
-		} 
-		catch (error) {
-			console.error("Error:", error);
-		}
-	};
-	  
+	const [englishName, setEnglishName] = useState('');
+	const [chineseName, setChineseName] = useState('');
+	const [email, setEmail] = useState('');
+	const [contactNumber, setContactNumber] = useState('');
+	const [address, setAddress] = useState('');
+
+	const [yearGraduation, setYearGraduation] = useState(null);
+	const [classGraduation, setClassGraduation] = useState(null);
+	const [houseGraduation, setHouseGraduation] = useState(null);
+
+	const [currentStatus, setCurrentStatus] = useState(null);
+
+	const [institution, setInstitution] = useState('');
+	const [additionalInformation, setAdditionalInformation] = useState('');
+	const [shareStatus, setShareStatus] = useState(true);
+
+	const [membershipType, setMembershipType] = useState('general');
+	const [receiveNews, setReceiveNews] = useState(true);
+
 	useEffect(() => {
 		if (params.closeDialog) {
 			setVisible(true);
@@ -55,17 +46,23 @@ export default function RegisterScreen() {
 
 	useEffect(() => {
 		if (params.submit) {
-			console.log('submit');
-
-			const endPoint = "https://portal.ktls.edu.hk/api.php";
 			const data = {
-				key1: "value1", 
-				key2: "value2",
+				englishName: englishName, 
+				chineseName: chineseName,
+				email: email,
+				contactNumber: contactNumber,
+				address: address,
+				yearGraduation: yearGraduation,
+				classGraduation: classGraduation,
+				houseGraduation: houseGraduation,
+				currentStatus: currentStatus,
+				institution: institution,
+				additionalInfo: additionalInformation,
+				shareStatus: shareStatus,
+				membershipType: membershipType,
+				receiveNews: receiveNews,
 			}
-
-			postData(endPoint, data);
-			
-			  
+			Connection.sendApplication(data);
 		}
 	}, [params.submit]);
 
@@ -113,7 +110,10 @@ export default function RegisterScreen() {
 
 
 	return (
-		<View style={styles.container}>
+		<ScrollView style={styles.container} 
+		automaticallyAdjustKeyboardInsets={true}
+		scrollEnabled={false}
+		>
 
 			<View style={{
 				position: 'absolute', 
@@ -150,24 +150,32 @@ export default function RegisterScreen() {
 						placeholder='Amy Chan'
 						style={styles.inputBox}
 						textStyle={styles.inputBoxText}
+						value={englishName}
+						onChangeText={(nextValue) => setEnglishName(nextValue)}
 					/>
 
 					<Text style={styles.label}>{t('register.chineseName')}</Text>
 					<Input
 						placeholder='陳小美'
 						style={styles.inputBox}
+						value={chineseName}
+						onChangeText={(nextValue) => setChineseName(nextValue)}
 					/>
 
 					<Text style={styles.label}>{t('register.email')}</Text>
 					<Input
 						placeholder='amychan@gmail.com'
 						style={styles.inputBox}
+						value={email}
+						onChangeText={(nextValue) => setEmail(nextValue)}
 					/>
 
 					<Text style={styles.label}>{t('register.contactNumber')}</Text>
 					<Input
 						placeholder='99887766'
 						style={styles.inputBox}
+						value={contactNumber}
+						onChangeText={(nextValue) => setContactNumber(nextValue)}
 					/>
 
 					<Text style={styles.label}>{t('register.address')}</Text>
@@ -175,6 +183,8 @@ export default function RegisterScreen() {
 						multiline={true}
 						style={styles.inputBox}
 						textStyle={styles.textArea}
+						value={address}
+						onChangeText={(nextValue) => setAddress(nextValue)}
 					/>
 
 				</Layout>
@@ -192,9 +202,9 @@ export default function RegisterScreen() {
 						labelField="label"
 						valueField="value"
 						placeholder=""
-						value={selectedYear}
+						value={yearGraduation}
 						onChange={item => {
-							setSelectedYear(item.value);
+							setYearGraduation(item.value);
 						}}
 					/>
 
@@ -210,9 +220,9 @@ export default function RegisterScreen() {
 						labelField="label"
 						valueField="value"
 						placeholder=""
-						value={selectedClass}
+						value={classGraduation}
 						onChange={item => {
-							setSelectedClass(item.value);
+							setClassGraduation(item.value);
 						}}
 					/>
 
@@ -227,9 +237,9 @@ export default function RegisterScreen() {
 						labelField="label"
 						valueField="value"
 						placeholder=""
-						value={selectedHouse}
+						value={houseGraduation}
 						onChange={item => {
-							setSelectedHouse(item.value);
+							setHouseGraduation(item.value);
 						}}
 					/>
 				</Layout>
@@ -247,9 +257,9 @@ export default function RegisterScreen() {
 						labelField="label"
 						valueField="value"
 						placeholder=""
-						value={selectedStatus}
+						value={currentStatus}
 						onChange={item => {
-							setSelectedStatus(item.value);
+							setCurrentStatus(item.value);
 						}}
 					/>
 
@@ -257,6 +267,8 @@ export default function RegisterScreen() {
 					<Input
 						placeholder=''
 						style={styles.inputBox}
+						value={institution}
+						onChangeText={(nextValue) => setInstitution(nextValue)}
 					/>
 
 					<Text style={styles.label}>{t('register.additionalInformation')}</Text>
@@ -264,6 +276,8 @@ export default function RegisterScreen() {
 						multiline={true}
 						style={styles.inputBox}
 						textStyle={styles.textArea}
+						value={additionalInformation}
+						onChangeText={(nextValue) => setAdditionalInformation(nextValue)}
 					/>
 
 					<View style={{flexDirection: "row", justifyContent: "space-between", alignItems: "center"}}>
@@ -271,9 +285,9 @@ export default function RegisterScreen() {
 						<Switch
 							trackColor={{false: '#767577', true: '#7CC4EB'}}
 							onValueChange={(isChecked): void => {
-								setShareStatusChecked(isChecked);
+								setShareStatus(isChecked);
 							}}
-							value={shareStatusChecked}
+							value={shareStatus}
 						/>
 					</View>
 
@@ -292,16 +306,16 @@ export default function RegisterScreen() {
 						maxHeight={300}
 						labelField="label"
 						valueField="value"
-						value={selectedMembership}
+						value={membershipType}
 						onChange={item => {
-							setSelectedMembership(item.value);
+							setMembershipType(item.value);
 						}}
 					/>
 
 					<View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: "center", marginBottom: 20}}>
 						<Text style={styles.label}>{t('register.fee')}</Text>
 						<Text style={styles.label}>
-							${selectedMembership=='permanent'?'1000':'100'}
+							${membershipType=='permanent'?'1000':'100'}
 						</Text>
 					</View>
 
@@ -310,9 +324,9 @@ export default function RegisterScreen() {
 						<Switch
 							trackColor={{false: '#767577', true: '#7CC4EB'}}
 							onValueChange={(isChecked): void => {
-								setReceiveNewsChecked(isChecked);
+								setReceiveNews(isChecked);
 							}}
-							value={receiveNewsChecked}
+							value={receiveNews}
 						/>
 					</View>
 
@@ -364,7 +378,7 @@ export default function RegisterScreen() {
 				</Card>
 			</Modal>
 			
-		</View>
+		</ScrollView>
 
 
 	);
@@ -372,6 +386,7 @@ export default function RegisterScreen() {
 
 const styles = StyleSheet.create({
 	container: {
+		backgroundColor: '#ffffff',
 	},
 	header: {
 	  flexShrink: 1,

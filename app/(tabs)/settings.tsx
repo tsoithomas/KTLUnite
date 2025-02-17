@@ -73,7 +73,7 @@ export default function SettingsScreen() {
 					key: 'language', 
 					name: t('settings.language'), 
 					onPress: selectLanguage,
-					icon: <MaterialIcons name="language" size={24} color="black" />
+					icon: <MaterialIcons name="language" size={24} color={Colors.light.text} />
 				},
 			],
 		},
@@ -85,7 +85,7 @@ export default function SettingsScreen() {
 					key: 'membership',
 					name: t('settings.signIn'),
 					onPress: () => alert('View Terms of Service'),
-					icon: <MaterialIcons name="login" size={24} color="black" />
+					icon: <MaterialIcons name="login" size={24} color={Colors.light.text} />
 				},
 			],
 		},
@@ -97,14 +97,14 @@ export default function SettingsScreen() {
 					key: 'tos', 
 					name: t('settings.termsOfService'), 
 					onPress: () => alert('View Terms of Service'),
-					icon: <MaterialIcons name="room-service" size={24} color="black" />
+					icon: <MaterialIcons name="room-service" size={24} color={Colors.light.text} />
 				},
 				{ 
 					type: 'button',
 					key: 'pp', 
 					name: t('settings.privacyPolicy'), 
 					onPress: () => alert('View Privacy Policy'),
-					icon: <MaterialIcons name="privacy-tip" size={24} color="black" />
+					icon: <MaterialIcons name="privacy-tip" size={24} color={Colors.light.text} />
 				},
 			],
 		},
