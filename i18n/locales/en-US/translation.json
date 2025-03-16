@@ -22,6 +22,7 @@
 		"language": "Language",
 		"membership": "Membership",
 		"signIn": "Sign in",
+		"signOut": "Sign out",
 		"about": "About",
 		"termsOfService": "Terms of Service",
 		"privacyPolicy": "Privacy Policy"

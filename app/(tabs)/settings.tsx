@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useState } from 'react';
 import { SectionList, StyleSheet, Switch, TouchableOpacity, useColorScheme } from 'react-native';
 import { useTranslation } from "react-i18next";
 import { Text, View } from '@/components/Themed';
@@ -8,15 +8,22 @@ import { useActionSheet } from '@expo/react-native-action-sheet';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { loadLanguage } from "../../i18n/loadLangage";
 import HeaderSemiCircle from '@/components/HeaderSemiCircle';
+import { useFocusEffect } from '@react-navigation/native';
 
+type UserData = {
+	accountId: number;
+	name: string;
+	memberSince: number;
+};
 
 export default function SettingsScreen() {
 	const { t } = useTranslation();
 	const colorScheme = useColorScheme();
 	const theme = Colors[colorScheme || "light"];
+	const { showActionSheetWithOptions } = useActionSheet();
 
 	const [language, setLanguage] = useState('en-US');
-	const { showActionSheetWithOptions } = useActionSheet();
+	const [accountId, setAccountId] = useState(0);
 
 	useEffect(() => {
 		const loadLanguage = async () => {
@@ -27,6 +34,20 @@ export default function SettingsScreen() {
 		loadLanguage();
 	}, []);
 
+	useFocusEffect(
+		useCallback(() => {
+			console.log('Screen is now focused!');
+			loadLoginData();
+			return () => {};
+		}, [])
+	);
+
+	const loadLoginData = async () => {
+		const userData = await AsyncStorage.getItem("userData");
+		const data = JSON.parse(userData ?? '');
+		setAccountId(data.accountId);
+	}
+	
 	useEffect(() => {
 		const saveLanguage = async () => {
 			await AsyncStorage.setItem("language", language);
@@ -35,6 +56,21 @@ export default function SettingsScreen() {
 	
 		saveLanguage();
 	}, [language]);
+
+	const signIn = () => {
+		console.log('sign in');
+	}
+
+	const signOut = async () => {
+		const userData: UserData = {
+			accountId: 0,
+			name: '',
+			memberSince: 0,
+		}
+
+		await AsyncStorage.setItem("userData", JSON.stringify(userData));
+		setAccountId(0);
+	}
 
 	const selectLanguage = () => {
 		const options = ['English', '中文', 'Cancel'];
@@ -83,9 +119,11 @@ export default function SettingsScreen() {
 				{
 					type: 'button',
 					key: 'membership',
-					name: t('settings.signIn'),
-					onPress: () => alert('View Terms of Service'),
-					icon: <MaterialIcons name="login" size={24} color={Colors.light.text} />
+					name: accountId ? t('settings.signOut') : t('settings.signIn'),
+					onPress: () => accountId ? signOut() : signIn(),
+					icon: accountId 
+						? <MaterialIcons name="logout" size={24} color={Colors.light.text} /> 
+						: <MaterialIcons name="login" size={24} color={Colors.light.text} />
 				},
 			],
 		},

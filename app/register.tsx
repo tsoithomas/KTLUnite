@@ -111,8 +111,8 @@ export default function RegisterScreen() {
 
 	return (
 		<ScrollView style={styles.container} 
-		automaticallyAdjustKeyboardInsets={true}
-		scrollEnabled={false}
+			automaticallyAdjustKeyboardInsets={true}
+			scrollEnabled={false}
 		>
 
 			<View style={{
