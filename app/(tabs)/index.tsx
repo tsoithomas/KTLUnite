@@ -33,7 +33,6 @@ export default function MembershipScreen() {
 
 	useFocusEffect(
 		useCallback(() => {
-			console.log('Screen is now focused!');
 			loadLoginData();
 			return () => {};
 		}, [])
@@ -80,7 +79,7 @@ export default function MembershipScreen() {
 	const loginForm = (
 		<Layout style={{flex: 1, justifyContent: 'flex-start', alignItems: 'center', paddingTop: 50}}>
 			<Image
-				style={styles.tlgirl}
+				style={styles.tlgirl1}
 				contentFit='contain'
 				source={require("../../assets/images/tlgirl1.png")}
 			/>
@@ -144,6 +143,11 @@ export default function MembershipScreen() {
 					}</Text>
 				</View>
 			</View>
+			<Image
+				style={styles.tlgirl2}
+				contentFit='contain'
+				source={require("../../assets/images/tlgirl2.png")}
+			/>
 		</Layout>
 	);
 
@@ -173,12 +177,19 @@ const styles = StyleSheet.create({
 	  width: "100%",
 	  height: 200,
 	},
-	tlgirl: {
+	tlgirl1: {
 		height: 100,
 		width: 200,
 		marginHorizontal: 'auto',
 		top: 6,
 		zIndex: 100
+	},
+	tlgirl2: {
+		height: 200,
+		width: 200,
+		marginHorizontal: 'auto',
+		top: -23,
+		zIndex: 1
 	},
 	loginForm: {
 		paddingHorizontal: 40,
@@ -236,6 +247,7 @@ const styles = StyleSheet.create({
 		padding: 20,
 		flexDirection: 'column',
 		justifyContent: 'space-between',
+		zIndex: 100,
 	},
 	membershipCardUpper: {
 		

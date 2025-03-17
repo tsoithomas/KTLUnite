@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useLayoutEffect, useState } from 'react';
 import { SectionList, StyleSheet, Switch, TouchableOpacity, useColorScheme } from 'react-native';
 import { useTranslation } from "react-i18next";
+import { router } from 'expo-router';
 import { Text, View } from '@/components/Themed';
 import Colors from '@/constants/Colors';
 import { MaterialIcons } from '@expo/vector-icons';
@@ -36,7 +37,6 @@ export default function SettingsScreen() {
 
 	useFocusEffect(
 		useCallback(() => {
-			console.log('Screen is now focused!');
 			loadLoginData();
 			return () => {};
 		}, [])
@@ -91,6 +91,12 @@ export default function SettingsScreen() {
 		  }});
 	}
 
+	const showTermsOfService = () => {
+		router.push({
+			pathname: '/terms',
+		});
+	}
+	
 	type DataItem =
 		| { type: 'button'; key: string; name: string; onPress: () => void; icon?: React.ReactNode }
 		| { type: 'switch'; key: string; name: string; isSwitch: true; value: boolean; onValueChange: () => void };
@@ -134,7 +140,7 @@ export default function SettingsScreen() {
 					type: 'button',
 					key: 'tos', 
 					name: t('settings.termsOfService'), 
-					onPress: () => alert('View Terms of Service'),
+					onPress: () => showTermsOfService(),
 					icon: <MaterialIcons name="room-service" size={24} color={Colors.light.text} />
 				},
 				{ 

@@ -1,4 +1,4 @@
-import { createRef, useEffect, useState } from 'react';
+import { createRef, useCallback, useEffect, useState } from 'react';
 import { ActivityIndicator, Dimensions, StyleSheet, useColorScheme } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 import { useTranslation } from "react-i18next";
@@ -6,6 +6,8 @@ import { View } from '@/components/Themed';
 import Colors from '@/constants/Colors';
 import WebView, { WebViewMessageEvent } from 'react-native-webview';
 import HeaderSemiCircle from '@/components/HeaderSemiCircle';
+import { useFocusEffect } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function NewsScreen() {
 	const { t } = useTranslation();
@@ -13,11 +15,12 @@ export default function NewsScreen() {
 	const theme = Colors[colorScheme || "light"];
 
 	const params = useLocalSearchParams<{ reloadKey: string }>();
-	const [reloadKey, setReloadKey] = useState(0);
 	const webViewRef = createRef<WebView>();
 	const { width, height } = Dimensions.get('window');
+	const [reloadKey, setReloadKey] = useState(0);
 	const [loading, setLoading] = useState(true);
-	
+	const [language, setLanguage] = useState('en-US');
+
 	const handleMessage = (event: WebViewMessageEvent) => {
 		const url = event.nativeEvent.data;
 		router.push({
@@ -32,6 +35,18 @@ export default function NewsScreen() {
 	const hideSpinner = () => {
 		setLoading(false);
 	}
+
+	const loadLanguage = async () => {
+		let lang = await AsyncStorage.getItem("language");
+		setLanguage(lang ?? 'en-US');
+	};
+	
+	useFocusEffect(
+		useCallback(() => {
+			loadLanguage();
+			return () => {};
+		}, [])
+	);
 
 	useEffect(() => {
 		let newReloadKey = Number(params.reloadKey);
@@ -48,7 +63,7 @@ export default function NewsScreen() {
 				ref={webViewRef}
 				key={reloadKey}
 				style={styles.webView}
-				source={{ uri: 'https://www.ktls.edu.hk/news/app/' }}
+				source={{ uri: language == 'en-US' ? 'https://www.ktls.edu.hk/news/app/' : 'https://www.ktls.edu.hk/zh/news-zh/app/' }}
 				onMessage={handleMessage}
 				onLoad={() => hideSpinner()}
 			/>

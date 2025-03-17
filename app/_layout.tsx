@@ -167,6 +167,15 @@ function RootLayoutNav() {
 							),
 
 						}} />
+						<Stack.Screen name="terms" options={{ 
+							title: t('settings.termsOfService'),
+							presentation: 'card', 
+							headerStyle: {backgroundColor: '#7CC4EB'},
+							headerTitleAlign: 'center',
+							headerBackTitle: "Back",
+							headerShadowVisible: false,
+							headerTintColor: '#16297C',
+						}} />
 					</Stack>
 				</ActionSheetProvider>
 			</ThemeProvider>

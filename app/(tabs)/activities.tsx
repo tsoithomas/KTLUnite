@@ -1,11 +1,13 @@
-import { createRef, useEffect, useState } from 'react';
+import { createRef, useCallback, useEffect, useState } from 'react';
 import { ActivityIndicator, Dimensions, StyleSheet, useColorScheme } from 'react-native';
-import { useLocalSearchParams } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
 import { useTranslation } from "react-i18next";
 import { View } from '@/components/Themed';
 import Colors from '@/constants/Colors';
-import WebView from 'react-native-webview';
+import WebView, { WebViewMessageEvent } from 'react-native-webview';
 import HeaderSemiCircle from '@/components/HeaderSemiCircle';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useFocusEffect } from '@react-navigation/native';
 
 export default function ActivitiesScreen() {
 	const { t } = useTranslation();
@@ -13,14 +15,38 @@ export default function ActivitiesScreen() {
 	const theme = Colors[colorScheme || "light"];
 
 	const params = useLocalSearchParams<{ reloadKey: string }>();
-	const [reloadKey, setReloadKey] = useState(0);
-	const { width, height } = Dimensions.get('window');
-	const [loading, setLoading] = useState(true);
 	const webViewRef = createRef<WebView>();
+	const { width, height } = Dimensions.get('window');
+	const [reloadKey, setReloadKey] = useState(0);
+	const [loading, setLoading] = useState(true);
+	const [language, setLanguage] = useState('en-US');
+
+	const handleMessage = (event: WebViewMessageEvent) => {
+		const url = event.nativeEvent.data;
+		router.push({
+			pathname: '/modal',
+			params: {
+				title: 'Alumni News',
+				url: url,
+			}
+		});
+	};
 
 	const hideSpinner = () => {
 		setLoading(false);
 	}
+
+	const loadLanguage = async () => {
+		let lang = await AsyncStorage.getItem("language");
+		setLanguage(lang ?? 'en-US');
+	};
+	
+	useFocusEffect(
+		useCallback(() => {
+			loadLanguage();
+			return () => {};
+		}, [])
+	);
 
 	useEffect(() => {
 		let newReloadKey = Number(params.reloadKey);
@@ -30,25 +56,24 @@ export default function ActivitiesScreen() {
 		}
 	}, [params.reloadKey]);
 
-
 	return (
-        <View style={styles.container}>
-        <HeaderSemiCircle style={styles.headerSemiCircle} />
-        <WebView
-            ref={webViewRef}
-            key={reloadKey}
-            style={styles.webView}
-            source={{ uri: 'https://www.ktls.edu.hk/news/alumni/' }}
-            onLoad={() => hideSpinner()}
-        />
-        {loading && (
-            <ActivityIndicator
-                style={[styles.webView, { position: "absolute", top: height / 2 - 100, left: width / 2 - 12 }]}
-                size="large"
-                />
-        )}
-        </View>
-
+		<View style={styles.container}>
+			<HeaderSemiCircle style={styles.headerSemiCircle} />
+			<WebView
+				ref={webViewRef}
+				key={reloadKey}
+				style={styles.webView}
+				source={{ uri: language == 'en-US' ? 'https://www.ktls.edu.hk/news/alumni/' : 'https://www.ktls.edu.hk/zh/news-zh/alumni/' }}
+				onMessage={handleMessage}
+				onLoad={() => hideSpinner()}
+			/>
+			{loading && (
+				<ActivityIndicator
+					style={[styles.webView, { position: "absolute", top: height / 2 - 100, left: width / 2 - 12 }]}
+					size="large"
+					/>
+			)}
+		</View>
 	);
 }
 
